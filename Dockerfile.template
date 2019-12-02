@@ -1,0 +1,11 @@
+FROM balenalib/%%BALENA_MACHINE_NAME%%-python:3-stretch-run
+
+WORKDIR /usr/src/app
+
+COPY requirements.txt requirements.txt
+
+RUN pip install -r requirements.txt
+
+COPY . ./
+
+CMD ["python","-u","src/main.py"]
