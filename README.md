@@ -56,7 +56,7 @@ $ balena version
 For the following exercises, we need an application and a device to run the code. Create an application named _FleetMasterclass_ and device using either the [Getting Started Guide](https://www.balena.io/docs/learn/getting-started/raspberrypi3/nodejs/) (to use the dashboard) or the [CLI masterclass](https://github.com/balena-io-projects/balena-cli-masterclass) (to use the CLI). Be sure to download a development image, and when the device has been provisioned, list the device(s) associated with the application using the `balena devices` command of the CLI.
 
 ```bash
-$ balena devices | grep FleetMasterclass
+$ balena devices --app FleetMasterclass
 1750246 3a628fc frosty-wildflower raspberrypi4-64 FleetMasterclass      Idle   true      10.3.7             balenaOS 2.44.0+rev3 https://dashboard.balena-cloud.com/devices/3a628fcf6651dd61c94aef0fb88efee9/summary
 ```
 
@@ -236,7 +236,7 @@ When complete, you should see a notification in the device logs:
 
 `22.11.19 19:13:36 (+0000) Applied configuration change {"SUPERVISOR_DELTA":"1"}`
 
-We can also set configuration values per device. Let's override the previous setting of `SUPERVISOR_DELTA` on our device to disable delta updates by issuing the following POST request, replacing your device ID below. You can obtain your device ID via `balena devices | grep FleetMasterclass`.
+We can also set configuration values per device. Let's override the previous setting of `SUPERVISOR_DELTA` on our device to disable delta updates by issuing the following POST request, replacing your device ID below. You can obtain your device ID via `balena devices --app FleetMasterclass`.
 
 ```bash
 curl -X POST 'https://api.balena-cloud.com/v5/device_config_variable' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json' -d '{
@@ -642,8 +642,8 @@ We are using a frozen image of `20191106`, which means this image will never be 
 
 Another aspect of fleet management is the deployment of an application to that fleet when new code for that application is available. Usually, the CI/CD pipeline for new functionality into an application consists of:
 1. An engineer implementing this functionality and then testing it locally.
-1. The release, or Pull Requesting (PRing), of code to an application branch for reviewing and end-to-end testing, usually in a staged environment.
-1. The merging of code into the `master` branch of an application.
+2. The release, or Pull Requesting (PRing), of code to an application branch for reviewing and end-to-end testing, usually in a staged environment.
+3. The merging of code into the `master` branch of an application.
 
 For feature implementation and testing, a development device can be put into 'local mode'. This allows an engineer to push new application code straight to a local device, saving time and not filling up application releases with development code. See [the documentation for local mode](https://www.balena.io/docs/learn/develop/local-mode/) and the section in the [balena CLI masterclass](https://github.com/balena-io-projects/balena-cli-masterclass#6-using-local-mode-to-develop-applications).
 
