@@ -56,7 +56,7 @@ $ balena version
 For the following exercises, we need an application and a device to run the code. Create an application named _FleetMasterclass_ and device using either the [Getting Started Guide](https://www.balena.io/docs/learn/getting-started/raspberrypi3/nodejs/) (to use the dashboard) or the [CLI masterclass](https://github.com/balena-io-projects/balena-cli-masterclass) (to use the CLI). Be sure to download a development image, and when the device has been provisioned, list the device(s) associated with the application using the `balena devices` command of the CLI.
 
 ```bash
-$ balena devices | grep FleetMasterclass
+$ balena devices --app FleetMasterclass
 1750246 3a628fc frosty-wildflower raspberrypi4-64 FleetMasterclass      Idle   true      10.3.7             balenaOS 2.44.0+rev3 https://dashboard.balena-cloud.com/devices/3a628fcf6651dd61c94aef0fb88efee9/summary
 ```
 
@@ -226,6 +226,8 @@ You can configure your entire application fleet, devices, and individual service
 
 Configuration variables are used to provide runtime configuration to the hostOS and supervisor. A description of the various available configuration variables can be found [here](https://www.balena.io/docs/learn/manage/configuration/#variable-list).
 
+> Delta builds are now [enabled by default](https://www.balena.io/docs/learn/deploy/delta/#enablingdisabling-delta-updates) for new applications so the first step will already be completed for new applications. You can also complete this exercise with any of the other available [configuration variables](https://www.balena.io/docs/learn/manage/configuration/#variable-list).
+
 Let's enable [delta builds](https://www.balena.io/docs/learn/deploy/delta/) for our application. This feature enables only downloading the difference (deltas) between images, which results in a reduction in the data needed to be downloaded for each release and reduces storage space on the device.
 
 Access the _Fleet Configuration_ tab of the Applications dashboard and select _activate_ next to _Enable/Disable delta updates_.
@@ -236,7 +238,7 @@ When complete, you should see a notification in the device logs:
 
 `22.11.19 19:13:36 (+0000) Applied configuration change {"SUPERVISOR_DELTA":"1"}`
 
-We can also set configuration values per device. Let's override the previous setting of `SUPERVISOR_DELTA` on our device to disable delta updates by issuing the following POST request, replacing your device ID below. You can obtain your device ID via `balena devices | grep FleetMasterclass`.
+We can also set configuration values per device. Let's override the previous setting of `SUPERVISOR_DELTA` on our device to disable delta updates by issuing the following POST request, replacing your device ID below. You can obtain your device ID via `balena devices --app FleetMasterclass`.
 
 ```bash
 curl -X POST 'https://api.balena-cloud.com/v5/device_config_variable' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json' -d '{
@@ -621,8 +623,10 @@ When it is time to move your fleet to production, there are a number of recommen
 * Minimise the size of your releases through the use of [multistage builds](https://github.com/balena-io-projects/services-masterclass#6-multi-stage-builds) and the minimal `run` variants of the [balena base images](https://www.balena.io/docs/reference/base-images/base-images/).
 * Use a release policy to safely roll out new application deployments through the use of release pinning.
 * Use an ESR version of the hostOS if available.
-* Enable [delta updates](https://www.balena.io/docs/learn/deploy/delta/) to reduce bandwidth and storage space required on the device.
+* Enable [delta updates](https://www.balena.io/docs/learn/deploy/delta/) to reduce bandwidth and storage space required on the device. Note that delta updates are now enabled by default for new applications.
 * Test your releases before deployment with a CI/CD pipeline.
+* If your application generates significant log data consider adding a log collection agent to your application containers.
+* Monitor your application with a solution such as [Prometheus](https://prometheus.io/).
 
 ### 7.1 Selecting Base Images
 
@@ -641,9 +645,10 @@ We are using a frozen image of `20191106`, which means this image will never be 
 ### 7.2 Integrating a CI/CD pipeline
 
 Another aspect of fleet management is the deployment of an application to that fleet when new code for that application is available. Usually, the CI/CD pipeline for new functionality into an application consists of:
+
 1. An engineer implementing this functionality and then testing it locally.
-1. The release, or Pull Requesting (PRing), of code to an application branch for reviewing and end-to-end testing, usually in a staged environment.
-1. The merging of code into the `master` branch of an application.
+2. The release, or Pull Requesting (PRing), of code to an application branch for reviewing and end-to-end testing, usually in a staged environment.
+3. The merging of code into the `master` branch of an application.
 
 For feature implementation and testing, a development device can be put into 'local mode'. This allows an engineer to push new application code straight to a local device, saving time and not filling up application releases with development code. See [the documentation for local mode](https://www.balena.io/docs/learn/develop/local-mode/) and the section in the [balena CLI masterclass](https://github.com/balena-io-projects/balena-cli-masterclass#6-using-local-mode-to-develop-applications).
 
