@@ -1,6 +1,6 @@
 {
   "name": "balena-fleet-management-masterclass",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A guide to managing an application fleet with balena",
   "scripts": {
     "test": "echo \"There are no tests for this repository\" && exit 0"
