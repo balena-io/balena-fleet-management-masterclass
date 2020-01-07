@@ -8,7 +8,7 @@ Balena Fleet Management Masterclass
 
 This masterclass builds upon knowledge that has been taught in previous classes. To gain the most from this masterclass, we recommend that you first undertake the following masterclasses:
 
-* [balena CLI Masterclass](https://github.com/balena-io-projects/balena-cli-masterclass)
+* [balena CLI Masterclass](https://github.com/balena-io/balena-cli-masterclass)
 
 # Introduction
 
@@ -23,14 +23,14 @@ This masterclass serves as an introduction to managing an application fleet with
 
 If you have any questions about this masterclass as you proceed through it, or would like clarifications on any of the topics raised here, please do raise an issue as on the repository that contains this file, or contact us in the balena forums where we’ll be delighted to answer your questions.
 
-The location of the repository that contains this masterclass and all associated code is https://github.com/balena-io-projects/balena-fleet-management-masterclass.
+The location of the repository that contains this masterclass and all associated code is https://github.com/balena-io/balena-fleet-management-masterclass.
 
 # Hardware and Software Requirements
 
 It is assumed that the reader has access to the following:
 
-* A locally cloned copy of this repository [Balena Fleet Management Masterclass](https://github.com/balena-io-projects/balena-fleet-management-masterclass). Either:
-	* `git clone https://github.com/balena-io-projects/balena-fleet-management-masterclass.git`.
+* A locally cloned copy of this repository [Balena Fleet Management Masterclass](https://github.com/balena-io/balena-fleet-management-masterclass). Either:
+	* `git clone https://github.com/balena-io/balena-fleet-management-masterclass.git`.
 	* Download ZIP file (from _Clone or download_->_Download ZIP_) and then unzip it to a suitable directory.
 * A balena supported device, such as a [balenaFin 1.1](https://store.balena.io/collections/developer-kit/products/balenafin-v1-1-0-developer-kit), [Raspberry Pi 3](https://www.raspberrypi.org/products/raspberry-pi-3-model-b/) or [Intel NUC](https://www.intel.co.uk/content/www/uk/en/products/boards-kits/nuc.html). If you don't have a device, you can emulate an Intel NUC by installing VirtualBox and following [this guide](https://www.balena.io/blog/no-hardware-use-virtualbox/).
 * A suitable text editor for developing code on your development platform (e.g. [Visual Code](https://code.visualstudio.com/)).
@@ -53,14 +53,14 @@ $ balena version
 
 ### 1.1 Create an Application and Provision a Device
 
-For the following exercises, we need an application and a device to run the code. Create an application named _FleetMasterclass_ and device using either the [Getting Started Guide](https://www.balena.io/docs/learn/getting-started/raspberrypi3/nodejs/) (to use the dashboard) or the [CLI masterclass](https://github.com/balena-io-projects/balena-cli-masterclass) (to use the CLI). Be sure to download a development image, and when the device has been provisioned, list the device(s) associated with the application using the `balena devices` command of the CLI.
+For the following exercises, we need an application and a device to run the code. Create an application named _FleetMasterclass_ and device using either the [Getting Started Guide](https://www.balena.io/docs/learn/getting-started/raspberrypi3/nodejs/) (to use the dashboard) or the [CLI masterclass](https://github.com/balena-io/balena-cli-masterclass) (to use the CLI). Be sure to download a development image, and when the device has been provisioned, list the device(s) associated with the application using the `balena devices` command of the CLI.
 
 ```bash
 $ balena devices --app FleetMasterclass
 1750246 3a628fc frosty-wildflower raspberrypi4-64 FleetMasterclass      Idle   true      10.3.7             balenaOS 2.44.0+rev3 https://dashboard.balena-cloud.com/devices/3a628fcf6651dd61c94aef0fb88efee9/summary
 ```
 
-You should see a device listed in the output. Take note of the device ID (`1750246`) and UUID (`3a628fc` in the example above) as we need these for the remainder of the exercises. For any issues using the CLI consult the [CLI masterclass](https://github.com/balena-io-projects/balena-cli-masterclass).
+You should see a device listed in the output. Take note of the device ID (`1750246`) and UUID (`3a628fc` in the example above) as we need these for the remainder of the exercises. For any issues using the CLI consult the [CLI masterclass](https://github.com/balena-io/balena-cli-masterclass).
 
 ### 1.2 Push the First Release
 
@@ -385,7 +385,7 @@ We can confirm that this worked by visiting the Application dashboard and clicki
 
 There is no CLI equivalent of `balena devices` to determine all releases for an application, and you will often need to identify specific releases for tagging purposes.
 
-You can find all releases via the dashboard by clicking the _Releases_ tab in the Application dashboard. 
+You can find all releases via the dashboard by clicking the _Releases_ tab in the Application dashboard.
 
 ![Dashboard releases](resources/qJTGXKk.png)
 
@@ -620,7 +620,7 @@ curl -X PATCH 'https://api.balena-cloud.com/v5/device(1750246)' -H 'Authorizatio
 When it is time to move your fleet to production, there are a number of recommended best practices:
 
 * Use frozen images and fixed dependencies to ensure there are no unexpected updates.
-* Minimise the size of your releases through the use of [multistage builds](https://github.com/balena-io-projects/services-masterclass#6-multi-stage-builds) and the minimal `run` variants of the [balena base images](https://www.balena.io/docs/reference/base-images/base-images/).
+* Minimise the size of your releases through the use of [multistage builds](https://github.com/balena-io/services-masterclass#6-multi-stage-builds) and the minimal `run` variants of the [balena base images](https://www.balena.io/docs/reference/base-images/base-images/).
 * Use a release policy to safely roll out new application deployments through the use of release pinning.
 * Use an ESR version of the hostOS if available.
 * Enable [delta updates](https://www.balena.io/docs/learn/deploy/delta/) to reduce bandwidth and storage space required on the device. Note that delta updates are now enabled by default for new applications.
@@ -630,7 +630,7 @@ When it is time to move your fleet to production, there are a number of recommen
 
 ### 7.1 Selecting Base Images
 
-In production, you should use a minimal image to reduce bandwidth requirements and to reduce deployment time. This can be achieved using multistage builds, which is covered in detail in the [services masterclass](https://github.com/balena-io-projects/services-masterclass#6-multi-stage-builds) and the minimal `run` variants of the [balena base images](https://www.balena.io/docs/reference/base-images/base-images/).
+In production, you should use a minimal image to reduce bandwidth requirements and to reduce deployment time. This can be achieved using multistage builds, which is covered in detail in the [services masterclass](https://github.com/balena-io/services-masterclass#6-multi-stage-builds) and the minimal `run` variants of the [balena base images](https://www.balena.io/docs/reference/base-images/base-images/).
 
 In addition, you should choose a frozen image to remove any unexpected updates of the base image, which may result in additional bandwidth.
 
@@ -650,7 +650,7 @@ Another aspect of fleet management is the deployment of an application to that f
 2. The release, or Pull Requesting (PRing), of code to an application branch for reviewing and end-to-end testing, usually in a staged environment.
 3. The merging of code into the `master` branch of an application.
 
-For feature implementation and testing, a development device can be put into 'local mode'. This allows an engineer to push new application code straight to a local device, saving time and not filling up application releases with development code. See [the documentation for local mode](https://www.balena.io/docs/learn/develop/local-mode/) and the section in the [balena CLI masterclass](https://github.com/balena-io-projects/balena-cli-masterclass#6-using-local-mode-to-develop-applications).
+For feature implementation and testing, a development device can be put into 'local mode'. This allows an engineer to push new application code straight to a local device, saving time and not filling up application releases with development code. See [the documentation for local mode](https://www.balena.io/docs/learn/develop/local-mode/) and the section in the [balena CLI masterclass](https://github.com/balena-io/balena-cli-masterclass#6-using-local-mode-to-develop-applications).
 
 Usually, most customers use third-party CI/CD services such as Jenkins, CircleCI, Travis, etc. which pull changes from feature branches in source repositories, build them and then test the built applications against a test 'rig'. All of the mentioned services (and almost all CI/CD services) allow the specification of custom scripts for initialising environments for these build/test cycles, and balena CLI can be installed via a script to carry out the final pushing of code to an application for release. Here's how a generic development, build, test cycle might work:
 
@@ -669,8 +669,8 @@ In balenaCloud, there are multiple member types, each offering different permiss
 ![Add application member](resources/cNNoT1K.png)
 
 * **Owner** - The user who created the application and has full permissions to add other members and remove the application.
-* **Observer** - Observers are given read-only access to the application and its devices. 
-* **Operator** - Operators have all the access given to observers, plus the ability to manage an application's devices. This means operators can remove devices, perform device actions, and modify device tags, metadata, and environment variables. Operators also have full SSH access to the application's devices. 
+* **Observer** - Observers are given read-only access to the application and its devices.
+* **Operator** - Operators have all the access given to observers, plus the ability to manage an application's devices. This means operators can remove devices, perform device actions, and modify device tags, metadata, and environment variables. Operators also have full SSH access to the application's devices.
 * **Developer** - Developers are given, in addition to the access provided to operators, the ability to manage an application. This includes pushing new code, modifying fleet-wide environment variables, running application actions, and downloading application images.
 
 ## 9. Enabling Support
@@ -705,4 +705,4 @@ This masterclass has covered the fundamentals of fleet management with balena. Y
 * [OData Specification](https://www.odata.org/)
 * [OData Query Cheatsheet](https://help.nintex.com/en-us/insight/OData/HE_CON_ODATAQueryCheatSheet.htm)
 * [balena API reference](https://www.balena.io/docs/reference/api/overview/)
-* [balena CLI masterclass](https://github.com/balena-io-projects/balena-cli-masterclass)
+* [balena CLI masterclass](https://github.com/balena-io/balena-cli-masterclass)

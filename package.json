@@ -7,13 +7,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com:balena-io-projects/balena-fleet-management-masterclass.git"
+    "url": "git+ssh://git@github.com:balena-io/balena-fleet-management-masterclass.git"
   },
   "author": "Gareth Davies <gareth@balena.io>",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/balena-io-projects/balena-fleet-management-masterclass/issues"
+    "url": "https://github.com/balena-io/balena-fleet-management-masterclass/issues"
   },
-  "homepage": "https://github.com/balena-io-projects/balena-fleet-management-masterclass#readme",
-  "private": "true"
+  "homepage": "https://github.com/balena-io/balena-fleet-management-masterclass#readme",
+  "private": true
 }
