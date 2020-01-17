@@ -1,8 +1,8 @@
 Balena Fleet Management Masterclass
 ===================================
 
-**Masterclass Type:** Core\
-**Maximum Expected Time To Complete:** 90 minutes
++ **Masterclass Type:** Core
++ **Maximum Expected Time To Complete:** 90 minutes
 
 # Prerequisite Classes
 
@@ -590,7 +590,7 @@ I am version 3.0.0 of the Masterclass
 
 After we deployed this, let's imagine we found a bug in the version 3.0.0 release, and we want to set all devices back to version 2.0.0. We could either do this by pinning each device or set the entire fleet to a single commit.
 
-In the API request, we will set both `should_track_latest_release` to `false` and set the commit to the commit hash of the version we want to roll back to. If we don't set `should_track_latest_release` to `false` while all devices will be updated to the specified commit, if any new releases are deployed, they will be pushed to all devices, which may not be the behaviour we want.
+In the API request, we will set both `should_track_latest_release` to `false` and set the commit to the commit hash of the version we want to roll back to. If we don't set `should_track_latest_release` to `false` while all devices will be updated to the specified commit, if any new releases are deployed, they will be pushed to all devices, which may not be the behavior we want.
 
 ```bash
 $ curl -X PATCH 'https://api.balena-cloud.com/v5/application(1550049)' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json' -d '{
@@ -620,7 +620,7 @@ curl -X PATCH 'https://api.balena-cloud.com/v5/device(1750246)' -H 'Authorizatio
 When it is time to move your fleet to production, there are a number of recommended best practices:
 
 * Use frozen images and fixed dependencies to ensure there are no unexpected updates.
-* Minimise the size of your releases through the use of [multistage builds](https://github.com/balena-io/services-masterclass#6-multi-stage-builds) and the minimal `run` variants of the [balena base images](https://www.balena.io/docs/reference/base-images/base-images/).
+* Minimize the size of your releases through the use of [multistage builds](https://github.com/balena-io/services-masterclass#6-multi-stage-builds) and the minimal `run` variants of the [balena base images](https://www.balena.io/docs/reference/base-images/base-images/).
 * Use a release policy to safely roll out new application deployments through the use of release pinning.
 * Use an ESR version of the hostOS if available.
 * Enable [delta updates](https://www.balena.io/docs/learn/deploy/delta/) to reduce bandwidth and storage space required on the device. Note that delta updates are now enabled by default for new applications.
@@ -652,7 +652,7 @@ Another aspect of fleet management is the deployment of an application to that f
 
 For feature implementation and testing, a development device can be put into 'local mode'. This allows an engineer to push new application code straight to a local device, saving time and not filling up application releases with development code. See [the documentation for local mode](https://www.balena.io/docs/learn/develop/local-mode/) and the section in the [balena CLI masterclass](https://github.com/balena-io/balena-cli-masterclass#6-using-local-mode-to-develop-applications).
 
-Usually, most customers use third-party CI/CD services such as Jenkins, CircleCI, Travis, etc. which pull changes from feature branches in source repositories, build them and then test the built applications against a test 'rig'. All of the mentioned services (and almost all CI/CD services) allow the specification of custom scripts for initialising environments for these build/test cycles, and balena CLI can be installed via a script to carry out the final pushing of code to an application for release. Here's how a generic development, build, test cycle might work:
+Usually, most customers use third-party CI/CD services such as Jenkins, CircleCI, Travis, etc. which pull changes from feature branches in source repositories, build them and then test the built applications against a test 'rig'. All of the mentioned services (and almost all CI/CD services) allow the specification of custom scripts for initializing environments for these build/test cycles, and balena CLI can be installed via a script to carry out the final pushing of code to an application for release. Here's how a generic development, build, test cycle might work:
 
 1. Engineer develops new functionality for an application using a device in local mode.
 2. PR for changes are made to the application via a branch.
