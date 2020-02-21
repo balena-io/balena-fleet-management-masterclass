@@ -306,7 +306,7 @@ Your name is Gareth Service
 
 Tags provide an easy way to include more information about your devices and releases. Using tags, you have the option to create multiple _key:value_ pairs to add additional metadata to devices and releases that may be used, for example, to identify a user-defined group of devices or a specific release.
 
-You can manage tags via the dashboard, API, or SDKs. There is currently no functionality to manage tags via the CLI.
+You can manage tags via the dashboard, CLI, API, or SDKs. Check the documentation [located here](https://www.balena.io/docs/reference/balena-cli/#tags-1) for more on how tags can be managed through the CLI.
 
 #### 4.1 Add a Device Tag using the Dashboard
 
