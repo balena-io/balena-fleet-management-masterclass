@@ -257,7 +257,7 @@ Environment variables allow the providing of runtime configuration to one or mor
 $ balena env add MY_NAME Gareth --application FleetMasterclass
 ```
 
-Now we'll update our application to echo this application environment variable. Update line 7 of `src/main.js` taking care to keep the indentation:
+Now we'll update our application to echo this application environment variable. Update line 7 of `src/main.py` taking care to keep the indentation:
 
 ```python
     return "Your name is " + os.environ.get('MY_NAME')
@@ -657,7 +657,7 @@ Usually, most customers use third-party CI/CD services such as Jenkins, CircleCI
 4. The application is built using `balena push testApplication` and relevant test devices are updated and tested.
 5. The test succeeds or fails, and the PR is updated accordingly.
 6. Finally, after successful testing and review, the branch is merged to `master`.
-7. The CI/CI service picks up the merge and carries out the final build, where the `master` branch swaps the application to build to the production application (i.e. `balena push masterApplication`).
+7. The CI/CD service picks up the merge and carries out the final build, where the `master` branch swaps the application to build to the production application (i.e. `balena push masterApplication`).
 
 ### 8. Application Ownership
 
