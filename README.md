@@ -3,6 +3,46 @@
 * **Masterclass Type:** Core
 * **Maximum Expected Time To Complete:** 90 minutes
 
+## Table of Contents
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [Prerequisite Classes](#prerequisite-classes)
+- [Introduction](#introduction)
+- [Hardware and Software Requirements](#hardware-and-software-requirements)
+- [Exercises](#exercises)
+  - [1. Application Setup](#1-application-setup)
+    - [1.1 Create an Application and Provision a Device](#11-create-an-application-and-provision-a-device)
+    - [1.2 Push the First Release](#12-push-the-first-release)
+  - [2. Access Tokens](#2-access-tokens)
+  - [3. Configuration](#3-configuration)
+    - [3.1 Configuration Variables](#31-configuration-variables)
+    - [3.2 Environment Variables](#32-environment-variables)
+    - [3.3 Service Variables](#33-service-variables)
+  - [4. Tagging](#4-tagging)
+    - [4.1 Add a Device Tag using the Dashboard](#41-add-a-device-tag-using-the-dashboard)
+    - [4.2 Add a Release Tag using the API](#42-add-a-release-tag-using-the-api)
+    - [4.3 Identifying Releases](#43-identifying-releases)
+  - [5. Filtering](#5-filtering)
+    - [5.1 Add a new filter](#51-add-a-new-filter)
+    - [5.2 Create a View](#52-create-a-view)
+    - [5.3 Filter with the API](#53-filter-with-the-api)
+  - [6. Release Policy](#6-release-policy)
+    - [6.1 Pin an Application to a Release](#61-pin-an-application-to-a-release)
+    - [6.2 Pin Device to a Release](#62-pin-device-to-a-release)
+    - [6.3 Pin using the API](#63-pin-using-the-api)
+  - [7. Best Practice for a Production Fleet](#7-best-practice-for-a-production-fleet)
+    - [7.1 Selecting Base Images](#71-selecting-base-images)
+    - [7.2 Integrating a CI/CD pipeline](#72-integrating-a-cicd-pipeline)
+  - [8. Application Ownership](#8-application-ownership)
+  - [9. Enabling Support](#9-enabling-support)
+- [Conclusion](#conclusion)
+- [References](#references)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## Prerequisite Classes
 
 This masterclass builds upon knowledge that has been taught in previous classes. To gain the most from this masterclass, we recommend that you first undertake the following masterclasses:
