@@ -164,13 +164,13 @@ Access tokens may be used to authenticate via the CLI, [SDKs](https://github.com
 * **Session tokens** - these tokens expire after seven days and cannot be revoked, though they may be refreshed via the API.
 * **API Keys** - these are named tokens that do not expire and may be revoked as needed.
 
-Either type of access token can be used for this masterclass.  Session tokens are much longer and may cause an issue in specific environments when executing shell commands using them, so using an API key for this masterclass is preferable. Once created, save the API key to an environment variable for the current shell with the following command, replacing <YOUR_API_TOKEN> with the value of the token obtained from the dashboard.
+Either type of access token can be used for this masterclass.  Session tokens are much longer and may cause an issue in specific environments when executing shell commands using them, so using an API key for this masterclass is preferable. Once created, save the API key to an environment variable for the current shell with the following command, replacing `<YOUR_API_TOKEN>` with the value of the token obtained from the dashboard.
 
 ```bash
 API_TOKEN=<YOUR_API_TOKEN>
 ```
 
-We can test the API token by issuing a request to obtain information about the application named _FleetMasterclass_. The URL is encoded in the example below, which makes it hard to read, the unencoded query we are making is: `https://api.balena-cloud.com/v5/application?$filter=app_name eq 'FleetMasterclass'`.
+We can test the API token by issuing a request to obtain information about the application named _FleetMasterclass_. The URL is encoded in the example below, which makes it hard to read; the decoded query we are making is: `https://api.balena-cloud.com/v5/application?$filter=app_name eq 'FleetMasterclass'`.
 
 ```bash
 curl -X GET 'https://api.balena-cloud.com/v5/application?$filter=app_name%20eq%20%27FleetMasterclass%27' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json'
@@ -223,7 +223,7 @@ You can configure your entire application fleet, devices, and individual service
 
 #### 3.1 Configuration Variables
 
-Configuration variables are used to provide runtime configuration to the hostOS and supervisor. A description of the various available configuration variables can be found [here](https://www.balena.io/docs/learn/manage/configuration/#variable-list).
+Configuration variables are used to provide runtime configuration to the host OS and supervisor. A description of the various available configuration variables can be found [here](https://www.balena.io/docs/learn/manage/configuration/#variable-list).
 
 Let's enable [delta builds](https://www.balena.io/docs/learn/deploy/delta/) for our application. This feature enables only downloading the difference (deltas) between images, which results in a reduction in the data needed to be downloaded for each release and reduces storage space on the device.
 
@@ -314,7 +314,7 @@ Add a tag from the Application dashboard by clicking the checkbox to the left of
 
 Enter the name of the tag as `devDevice` to identify this device as a development one in the application fleet for our use (we will later use this tag in the examples for filtering). We can specify a name only or both a name and value pair. In this example, we are just adding a tag name. Tag names must be unique.
 
-> Note, the following gifs and screenshots use the tag `development`. However, to avoid confusion with the hostOS version (also named development) it is strongly recommended you create your tag as `devDevice` or similar.
+> Note, the following GIFs and screenshots use the tag `development`. However, to avoid confusion with the host OS version (also named development) it is strongly recommended you create your tag as `devDevice` or similar.
 
 ![Adding a tag via the dashboard](https://github.com/balena-io-projects/balena-fleet-management-masterclass/raw/master/resources/ltzofvx.gif)
 
@@ -353,7 +353,7 @@ curl -X POST 'https://api.balena-cloud.com/v5/release_tag' -H "Authorization: Be
 }' | jq '.'
 ```
 
-If the request is sucessful you will see a response for the newly created tag:
+If the request is successful you will see a response for the newly created tag:
 
 ```json
 {
@@ -414,7 +414,7 @@ Views allow us to save filters, rather than having to reenter them each time we 
 
 The API has powerful filter capabilities through the use of the `$filter` property. We will only cover the basic filters, and more detail can be found via the [OData specification](https://www.odata.org/) or this [OData cheatsheet](https://help.nintex.com/en-us/insight/OData/HE_CON_ODATAQueryCheatSheet.htm) for all available filter operations.
 
-For example, let's find all the devices in our application that are online using the app id (1550049) in the example. For readability, the unencoded version of this query is `https://api.balena-cloud.com/v5/device?$filter=belongs_to__application eq '1550049' and is_online eq true`.
+For example, let's find all the devices in our application that are online using the app id (1550049) in the example. For readability, the decoded version of this query is `https://api.balena-cloud.com/v5/device?$filter=belongs_to__application eq '1550049' and is_online eq true`.
 
 ```bash
 curl -X GET 'https://api.balena-cloud.com/v5/device?$filter=belongs_to__application%20eq%20%271550049%27%20and%20is_online%20eq%20true' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json'
@@ -551,7 +551,7 @@ $ curl -X GET 'https://api.balena-cloud.com/v5/application?$filter=app_name%20eq
 }
 ```
 
-Note that `should_track_latest_release` is `false`, and the commit corresponds to the release we pinned the application to. Let's update this so that the application once again follows the latest release. First, update line 7 of src/main.py to read:
+Note that `should_track_latest_release` is `false`, and the commit corresponds to the release we pinned the application to. Let's update this so that the application once again follows the latest release. First, update line 7 of `src/main.py` to read:
 
 ```python
     return "I am version 3.0.0 of the Masterclass"
@@ -619,7 +619,7 @@ When it is time to move your fleet to production, there are a number of recommen
 * Use frozen images and fixed dependencies to ensure there are no unexpected updates.
 * Minimize the size of your releases through the use of [multistage builds](https://github.com/balena-io/services-masterclass#6-multi-stage-builds) and the minimal `run` variants of the [balena base images](https://www.balena.io/docs/reference/base-images/base-images/).
 * Use a release policy to safely roll out new application deployments through the use of release pinning.
-* Use an ESR version of the hostOS if available.
+* Use an ESR version of the host OS if available.
 * Enable [delta updates](https://www.balena.io/docs/learn/deploy/delta/) to reduce bandwidth and storage space required on the device.
 * Test your releases before deployment with a CI/CD pipeline.
 * If your application generates significant log data consider adding a log collection agent to your application containers.
