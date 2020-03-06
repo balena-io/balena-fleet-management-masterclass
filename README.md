@@ -612,7 +612,7 @@ curl -X PATCH 'https://api.balena-cloud.com/v5/device(1750246)' -H 'Authorizatio
 }'
 ```
 
-### 7. Best Practice for a Production Fleet
+### 7. Best Practices for Production Fleets
 
 When it is time to move your fleet to production, there are a number of recommended best practices:
 
