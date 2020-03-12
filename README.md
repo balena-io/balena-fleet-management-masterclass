@@ -242,10 +242,10 @@ curl -X PATCH 'https://api.balena-cloud.com/v5/device_config_variable' -H "Autho
     "device": 1750246,
     "name": "RESIN_SUPERVISOR_DELTA",
     "value": "0"
-}' | jq '.'
+}'
 ```
 
-On success, you will be returned details about the newly created device config variable, and you can confirm this worked by visiting the _Device Configuration_ tab in the Devices dashboard where it will now show as disabled for this device.
+On success, you will be returned `OK` if the device config variable update succeeded, and you can confirm this worked by visiting the _Device Configuration_ tab in the Devices dashboard where it will now show as disabled for this device.
 
 ![Device configuration](https://github.com/balena-io-projects/balena-fleet-management-masterclass/raw/master/resources/8QwOAwr.png)
 
