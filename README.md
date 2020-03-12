@@ -235,10 +235,10 @@ When complete, you should see a notification in the device logs:
 
 `22.11.19 19:13:36 (+0000) Applied configuration change {"SUPERVISOR_DELTA":"1"}`
 
-We can also set configuration values per device. Let's override the previous setting of `SUPERVISOR_DELTA` on our device to disable delta updates by issuing the following POST request, replacing your device ID below. You can obtain your device ID via `balena devices --app FleetMasterclass`.
+We can also set configuration values per device. Let's override the previous setting of `SUPERVISOR_DELTA` on our device to disable delta updates by issuing the following PATCH request, replacing your device ID below. You can obtain your device ID via `balena devices --app FleetMasterclass`.
 
 ```bash
-curl -X POST 'https://api.balena-cloud.com/v5/device_config_variable' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json' -d '{
+curl -X PATCH 'https://api.balena-cloud.com/v5/device_config_variable' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json' -d '{
     "device": 1750246,
     "name": "RESIN_SUPERVISOR_DELTA",
     "value": "0"
