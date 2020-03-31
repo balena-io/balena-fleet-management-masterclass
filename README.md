@@ -225,6 +225,8 @@ You can configure your entire application fleet, devices, and individual service
 
 Configuration variables are used to provide runtime configuration to the host OS and supervisor. A description of the various available configuration variables can be found [here](https://www.balena.io/docs/learn/manage/configuration/#variable-list).
 
+Note: Delta builds are now [enabled by default](https://www.balena.io/docs/learn/deploy/delta/#enablingdisabling-delta-updates) for devices running balenaOS >= 2.47.1, so the first step will already be completed for new applications. You can also complete this exercise with any of the other available [configuration variables](https://www.balena.io/docs/learn/manage/configuration/#variable-list).
+
 Let's enable [delta builds](https://www.balena.io/docs/learn/deploy/delta/) for our application. This feature enables only downloading the difference (deltas) between images, which results in a reduction in the data needed to be downloaded for each release and reduces storage space on the device.
 
 Access the _Fleet Configuration_ tab of the Applications dashboard and select _activate_ next to _Enable/Disable delta updates_.
@@ -619,8 +621,8 @@ When it is time to move your fleet to production, there are a number of recommen
 * Use frozen images and fixed dependencies to ensure there are no unexpected updates.
 * Minimize the size of your releases through the use of [multistage builds](https://github.com/balena-io/services-masterclass#6-multi-stage-builds) and the minimal `run` variants of the [balena base images](https://www.balena.io/docs/reference/base-images/base-images/).
 * Use a release policy to safely roll out new application deployments through the use of release pinning.
+* Enable [delta updates](https://www.balena.io/docs/learn/deploy/delta/) to reduce bandwidth and storage space required on the device. Note that delta updates are now enabled by default for any devices running balenaOS >= 2.47.1.
 * Use an ESR version of the host OS if available.
-* Enable [delta updates](https://www.balena.io/docs/learn/deploy/delta/) to reduce bandwidth and storage space required on the device.
 * Test your releases before deployment with a CI/CD pipeline.
 * If your application generates significant log data consider adding a log collection agent to your application containers.
 * Monitor your application with a solution such as [Prometheus](https://prometheus.io/).
