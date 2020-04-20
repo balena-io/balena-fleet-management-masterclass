@@ -241,7 +241,7 @@ We can also set configuration values per device. Let's override the previous set
 
 ```bash
 curl -X PATCH 'https://api.balena-cloud.com/v5/device_config_variable' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json' -d '{
-    "device": 1750246,
+    "device": "1750246",
     "name": "RESIN_SUPERVISOR_DELTA",
     "value": "0"
 }'
