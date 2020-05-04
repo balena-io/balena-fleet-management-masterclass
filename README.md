@@ -1,24 +1,24 @@
 # Balena Fleet Management Masterclass
 
-* **Masterclass Type:** Core
-* **Maximum Expected Time To Complete:** 90 minutes
+- **Masterclass Type:** Core
+- **Maximum Expected Time To Complete:** 90 minutes
 
 ## Prerequisite Classes
 
 This masterclass builds upon knowledge that has been taught in previous classes. To gain the most from this masterclass, we recommend that you first undertake the following masterclasses:
 
-* [balena CLI Masterclass](https://github.com/balena-io/balena-cli-masterclass)
+- [balena CLI Masterclass](https://github.com/balena-io/balena-cli-masterclass)
 
 ## Introduction
 
 This masterclass serves as an introduction to managing an application fleet with balena. In this masterclass you will learn how to:
 
-* Set configuration, environment, and service variables.
-* Tag and filter devices and releases.
-* Use a release policy to pin applications and devices to defined releases.
-* Identify the different available roles for a user in balenaCloud.
-* Obtain access tokens for interacting with the API, CLI, and SDKs.
-* Describe best practices for applications in a production environment.
+- Set configuration, environment, and service variables.
+- Tag and filter devices and releases.
+- Use a release policy to pin applications and devices to defined releases.
+- Identify the different available roles for a user in balenaCloud.
+- Obtain access tokens for interacting with the API, CLI, and SDKs.
+- Describe best practices for applications in a production environment.
 
 If you have any questions about this masterclass as you proceed through it, or would like clarifications on any of the topics raised here, please do raise an issue as on the repository that contains this file, or contact us in the balena forums where we’ll be delighted to answer your questions.
 
@@ -28,16 +28,16 @@ The location of the repository that contains this masterclass and all associated
 
 It is assumed that the reader has access to the following:
 
-* A locally cloned copy of this repository [Balena Fleet Management Masterclass](https://github.com/balena-io/balena-fleet-management-masterclass). Either:
-  * `git clone https://github.com/balena-io/balena-fleet-management-masterclass.git`.
-  * Download ZIP file (from _Clone or download_->_Download ZIP_) and then unzip it to a suitable directory.
-* A balena supported device, such as a [balenaFin 1.1](https://store.balena.io/collections/developer-kit/products/balenafin-v1-1-0-developer-kit), [Raspberry Pi 3](https://www.raspberrypi.org/products/raspberry-pi-3-model-b/) or [Intel NUC](https://www.intel.co.uk/content/www/uk/en/products/boards-kits/nuc.html). If you don't have a device, you can emulate an Intel NUC by installing VirtualBox and following [this guide](https://www.balena.io/blog/no-hardware-use-virtualbox/) or by running balenaOS in a [Docker container](https://github.com/balena-os/balenaos-in-container) on your development machine.
-* A suitable text editor for developing code on your development platform (e.g. [Visual Code](https://code.visualstudio.com/)).
-* A suitable shell environment for command execution (such as `bash`).
-* The [balena CLI](https://github.com/balena-io/balena-cli/blob/master/INSTALL.md) tools installed.
-* The [jq](https://stedolan.github.io/jq/download/) utility installed on the development machine.
-* A [balenaCloud](https://www.balena.io/) account.
-* A local installation of [Docker](https://docs.docker.com/v17.09/engine/installation/).
+- A locally cloned copy of this repository [Balena Fleet Management Masterclass](https://github.com/balena-io/balena-fleet-management-masterclass). Either:
+  - `git clone https://github.com/balena-io/balena-fleet-management-masterclass.git`.
+  - Download ZIP file (from _Clone or download_->_Download ZIP_) and then unzip it to a suitable directory.
+- A balena supported device, such as a [balenaFin 1.1](https://store.balena.io/collections/developer-kit/products/balenafin-v1-1-0-developer-kit), [Raspberry Pi 3](https://www.raspberrypi.org/products/raspberry-pi-3-model-b/) or [Intel NUC](https://www.intel.co.uk/content/www/uk/en/products/boards-kits/nuc.html). If you don't have a device, you can emulate an Intel NUC by installing VirtualBox and following [this guide](https://www.balena.io/blog/no-hardware-use-virtualbox/) or by running balenaOS in a [Docker container](https://github.com/balena-os/balenaos-in-container) on your development machine.
+- A suitable text editor for developing code on your development platform (e.g. [Visual Code](https://code.visualstudio.com/)).
+- A suitable shell environment for command execution (such as `bash`).
+- The [balena CLI](https://github.com/balena-io/balena-cli/blob/master/INSTALL.md) tools installed.
+- The [jq](https://stedolan.github.io/jq/download/) utility installed on the development machine.
+- A [balenaCloud](https://www.balena.io/) account.
+- A local installation of [Docker](https://docs.docker.com/v17.09/engine/installation/).
 
 ## Exercises
 
@@ -155,16 +155,16 @@ Alternatively, point your web browser to the device local IP address or `http://
 
 ### 2. Access Tokens
 
-During the masterclass, we will use the [balena API](https://www.balena.io/docs/reference/api/overview/) to manage the application and device(s).  To get started using the API, you need an access token.  Access tokens are managed via the _Access tokens tab_ of the [_Preferences_ page](https://dashboard.balena-cloud.com/preferences/access-tokens) of the dashboard.
+During the masterclass, we will use the [balena API](https://www.balena.io/docs/reference/api/overview/) to manage the application and device(s). To get started using the API, you need an access token. Access tokens are managed via the _Access tokens tab_ of the [_Preferences_ page](https://dashboard.balena-cloud.com/preferences/access-tokens) of the dashboard.
 
 ![Access tokens](https://github.com/balena-io-projects/balena-fleet-management-masterclass/raw/master/resources/rmGIGgB.png)
 
-Access tokens may be used to authenticate via the CLI, [SDKs](https://github.com/balena-io/balena-sdk), and all API endpoints. Access tokens should be treated as sensitive and stored securely and never committed to a version control system. Balena offers two types of access tokens that offer the same user-level permissions to manage applications,  devices, and the associated user account.
+Access tokens may be used to authenticate via the CLI, [SDKs](https://github.com/balena-io/balena-sdk), and all API endpoints. Access tokens should be treated as sensitive and stored securely and never committed to a version control system. Balena offers two types of access tokens that offer the same user-level permissions to manage applications, devices, and the associated user account.
 
-* **Session tokens** - these tokens expire after seven days and cannot be revoked, though they may be refreshed via the API.
-* **API Keys** - these are named tokens that do not expire and may be revoked as needed.
+- **Session tokens** - these tokens expire after seven days and cannot be revoked, though they may be refreshed via the API.
+- **API Keys** - these are named tokens that do not expire and may be revoked as needed.
 
-Either type of access token can be used for this masterclass.  Session tokens are much longer and may cause an issue in specific environments when executing shell commands using them, so using an API key for this masterclass is preferable. Once created, save the API key to an environment variable for the current shell with the following command, replacing `<YOUR_API_TOKEN>` with the value of the token obtained from the dashboard.
+Either type of access token can be used for this masterclass. Session tokens are much longer and may cause an issue in specific environments when executing shell commands using them, so using an API key for this masterclass is preferable. Once created, save the API key to an environment variable for the current shell with the following command, replacing `<YOUR_API_TOKEN>` with the value of the token obtained from the dashboard.
 
 ```bash
 API_TOKEN=<YOUR_API_TOKEN>
@@ -176,7 +176,7 @@ We can test the API token by issuing a request to obtain information about the a
 curl -X GET 'https://api.balena-cloud.com/v5/application?$filter=app_name%20eq%20%27FleetMasterclass%27' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json'
 ```
 
-If you have an application named _FleetMasterclass_ associated with your account, a JSON object containing the application data will be returned.  To make this easier to read, pipe the output into the `jq` utility by appending ``|  jq '.'`` to the end of the previous command:
+If you have an application named _FleetMasterclass_ associated with your account, a JSON object containing the application data will be returned. To make this easier to read, pipe the output into the `jq` utility by appending `| jq '.'` to the end of the previous command:
 
 ```bash
 curl -X GET 'https://api.balena-cloud.com/v5/application?$filter=app_name%20eq%20%27FleetMasterclass%27' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json' | jq '.'
@@ -223,33 +223,64 @@ You can configure your entire application fleet, devices, and individual service
 
 #### 3.1 Configuration Variables
 
-Configuration variables are used to provide runtime configuration to the host OS and supervisor. A description of the various available configuration variables can be found [here](https://www.balena.io/docs/learn/manage/configuration/#variable-list).
+Configuration variables provide runtime configuration to the host OS and supervisor. A description of the various available configuration variables can be found [here](https://www.balena.io/docs/learn/manage/configuration/#variable-list).
 
-Note: Delta builds are now [enabled by default](https://www.balena.io/docs/learn/deploy/delta/#enablingdisabling-delta-updates) for devices running balenaOS >= 2.47.1, so the first step will already be completed for new applications. You can also complete this exercise with any of the other available [configuration variables](https://www.balena.io/docs/learn/manage/configuration/#variable-list).
-
-Let's enable [delta builds](https://www.balena.io/docs/learn/deploy/delta/) for our application. This feature enables only downloading the difference (deltas) between images, which results in a reduction in the data needed to be downloaded for each release and reduces storage space on the device.
-
-Access the _Fleet Configuration_ tab of the Applications dashboard and select _activate_ next to _Enable/Disable delta updates_.
-
-![Fleet configuration](https://github.com/balena-io-projects/balena-fleet-management-masterclass/raw/master/resources/U02VSYu.gif)
-
-When complete, you should see a notification in the device logs:
-
-`22.11.19 19:13:36 (+0000) Applied configuration change {"SUPERVISOR_DELTA":"1"}`
-
-We can also set configuration values per device. Let's override the previous setting of `SUPERVISOR_DELTA` on our device to disable delta updates by issuing the following PATCH request, replacing your device ID below. You can obtain your device ID via `balena devices --app FleetMasterclass`.
+Let's enable persistent logging for our device via the API. By default, logs are written to an 8MB journald RAM buffer to avoid wear on the storage medium, and so any logs do not persist on a reboot. Enabling persistent logging writes up to 32MB of logs to the data partition of the device (for balenaOS >= 2.45) and can assist in debugging issues over multiple reboots. To enable persistent logging for a device, send the following POST request replacing your `device_id` in the request below. You can obtain your device ID from the output of `balena devices --app FleetMasterclass`.
 
 ```bash
-curl -X PATCH 'https://api.balena-cloud.com/v5/device_config_variable' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json' -d '{
-    "device": "1750246",
-    "name": "RESIN_SUPERVISOR_DELTA",
-    "value": "0"
+curl -X POST 'https://api.balena-cloud.com/v5/device_config_variable' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json' -d '{
+    "device": "2134742",
+    "name": "RESIN_SUPERVISOR_PERSISTENT_LOGGING",
+    "value": "1"
 }'
 ```
 
-On success, you will be returned `OK` if the device config variable update succeeded, and you can confirm this worked by visiting the _Device Configuration_ tab in the Devices dashboard where it will now show as disabled for this device.
+On success, you will see the newly created device configuration value.
 
-![Device configuration](https://github.com/balena-io-projects/balena-fleet-management-masterclass/raw/master/resources/8QwOAwr.png)
+```json
+{
+   "id":1423838,
+   "device":{
+      "__deferred":{
+         "uri":"/resin/device(2134742)"
+      },
+      "__id":2134742
+   },
+   "value":"1",
+   "name":"RESIN_SUPERVISOR_PERSISTENT_LOGGING",
+   "__metadata":{
+      "uri":"/resin/device_config_variable(@id)?@id=1423838"
+   }
+}
+```
+
+Many configuration updates require a reboot of the device to apply, which is triggered automatically via a VPN notification when a configuration value is changed. Note that if the VPN is inaccessible this change will be picked up via the device supervisor when it next polls the API. Viewing the web terminal of the device, you should see a notification in the logs, and the device will subsequently reboot.
+
+```bash
+04.05.20 12:46:47 (-0700) Applying configuration change {"SUPERVISOR_PERSISTENT_LOGGING":"1"}
+04.05.20 12:46:47 (-0700) Applied configuration change {"SUPERVISOR_PERSISTENT_LOGGING":"1"}
+04.05.20 12:46:47 (-0700) Rebooting
+04.05.20 10:24:40 (-0700) Supervisor starting
+```
+
+Let's disable persistent logging again with a `PATCH` request. To do so, the configuration variable id that was returned when creating the configuration value is required.
+
+```bash
+curl -X PATCH 'https://api.balena-cloud.com/v5/device_config_variable(1399394)' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json' -d '{
+    "value": "0"
+}'
+OK%
+```
+
+If you don't know the device configuration variable id, you can list all configuration values for a device via the following `GET` request, again replacing with your `device_id`.
+
+```bash
+curl -X GET 'https://api.balena-cloud.com/v5/device_config_variable?$filter=device%20eq%202134742' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json'
+```
+
+You can also update this configuration value for the entire fleet. Access the _Fleet Configuration_ tab of the Applications dashboard and select _activate_ next to _Enable persistent logging. Only supported by supervisor versions >= v7.15.0._. Then click on _Enable_ to set the configuration value. Note that because we have an existing override for the device, it will not be applied to our device but only to any additional devices joining the application.
+
+![Enable persistent logging](https://github.com/balena-io-projects/balena-fleet-management-masterclass/raw/master/resources/2wGmef2.gif)
 
 #### 3.2 Environment Variables
 
@@ -291,7 +322,7 @@ Your name is Gareth Updated
 
 #### 3.3 Service Variables
 
-Environment variables are accessible to all services running on a device, whereas service variables are assigned to a specific service. Service variables can be created via the dashboard or via the API, either for the application or per device.  The CLI does not currently support service-specific variables.
+Environment variables are accessible to all services running on a device, whereas service variables are assigned to a specific service. Service variables can be created via the dashboard or via the API, either for the application or per device. The CLI does not currently support service-specific variables.
 
 Create a new device service variable named `MY_NAME` from the _Device Service Variables_ tab of the Device dashboard and give it a unique value. As we only have a single service for this application, the default service value of `main` is the only available option.
 
@@ -446,7 +477,7 @@ curl -X GET 'https://api.balena-cloud.com/v5/device?$filter=belongs_to__applicat
 }
 ```
 
-The response from that query should return your online device(s). If you power off your device(s) and run the query again, you should get an empty response.  Alternatively, change `is_online` to `false` to display the now offline device(s) for the _FleetMasterclass_ application.
+The response from that query should return your online device(s). If you power off your device(s) and run the query again, you should get an empty response. Alternatively, change `is_online` to `false` to display the now offline device(s) for the _FleetMasterclass_ application.
 
 ```bash
 curl -X GET 'https://api.balena-cloud.com/v5/device?$filter=belongs_to__application%20eq%20%271550049%27%20and%20is_online%20eq%20false' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json'
@@ -618,14 +649,14 @@ curl -X PATCH 'https://api.balena-cloud.com/v5/device(1750246)' -H 'Authorizatio
 
 When it is time to move your fleet to production, there are a number of recommended best practices:
 
-* Use frozen images and fixed dependencies to ensure there are no unexpected updates.
-* Minimize the size of your releases through the use of [multistage builds](https://github.com/balena-io/services-masterclass#6-multi-stage-builds) and the minimal `run` variants of the [balena base images](https://www.balena.io/docs/reference/base-images/base-images/).
-* Use a release policy to safely roll out new application deployments through the use of release pinning.
-* Enable [delta updates](https://www.balena.io/docs/learn/deploy/delta/) to reduce bandwidth and storage space required on the device. Note that delta updates are now enabled by default for any devices running balenaOS >= 2.47.1.
-* Use an ESR version of the host OS if available.
-* Test your releases before deployment with a CI/CD pipeline.
-* If your application generates significant log data consider adding a log collection agent to your application containers.
-* Monitor your application with a solution such as [Prometheus](https://prometheus.io/).
+- Use frozen images and fixed dependencies to ensure there are no unexpected updates.
+- Minimize the size of your releases through the use of [multistage builds](https://github.com/balena-io/services-masterclass#6-multi-stage-builds) and the minimal `run` variants of the [balena base images](https://www.balena.io/docs/reference/base-images/base-images/).
+- Use a release policy to safely roll out new application deployments through the use of release pinning.
+- Enable [delta updates](https://www.balena.io/docs/learn/deploy/delta/) to reduce bandwidth and storage space required on the device. Note that delta updates are now enabled by default for any devices running balenaOS >= 2.47.1.
+- Use an ESR version of the host OS if available.
+- Test your releases before deployment with a CI/CD pipeline.
+- If your application generates significant log data consider adding a log collection agent to your application containers.
+- Monitor your application with a solution such as [Prometheus](https://prometheus.io/).
 
 #### 7.1 Selecting Base Images
 
@@ -667,10 +698,10 @@ In balenaCloud, there are multiple member types, each offering different permiss
 
 ![Add application member](https://github.com/balena-io-projects/balena-fleet-management-masterclass/raw/master/resources/cNNoT1K.png)
 
-* **Owner** - The user who created the application and has full permissions to add other members and remove the application.
-* **Observer** - Observers are given read-only access to the application and its devices.
-* **Operator** - Operators have all the access given to observers, plus the ability to manage an application's devices. This means operators can remove devices, perform device actions, and modify device tags, metadata, and environment variables. Operators also have full SSH access to the application's devices.
-* **Developer** - Developers are given, in addition to the access provided to operators, the ability to manage an application. This includes pushing new code, modifying fleet-wide environment variables, running application actions, and downloading application images.
+- **Owner** - The user who created the application and has full permissions to add other members and remove the application.
+- **Observer** - Observers are given read-only access to the application and its devices.
+- **Operator** - Operators have all the access given to observers, plus the ability to manage an application's devices. This means operators can remove devices, perform device actions, and modify device tags, metadata, and environment variables. Operators also have full SSH access to the application's devices.
+- **Developer** - Developers are given, in addition to the access provided to operators, the ability to manage an application. This includes pushing new code, modifying fleet-wide environment variables, running application actions, and downloading application images.
 
 ### 9. Enabling Support
 
@@ -690,18 +721,18 @@ It is possible to disable this functionality with the removal of the balena SSH 
 
 This masterclass has covered the fundamentals of fleet management with balena. You should now be able to perform various fleet management tasks using the dashboard, CLI, and API. You should now feel confident to:
 
-* Create an API key and create an API request.
-* Describe the different configuration, environment, and service variables available.
-* Tag devices and releases.
-* Create filters and views in the dashboard and use filters with the API.
-* Pin applications and devices to specific releases.
-* Detail the different ownership levels in an application.
-* Recommend best practices in deploying a fleet to production.
-* Enable support for application fleets and individual devices.
+- Create an API key and create an API request.
+- Describe the different configuration, environment, and service variables available.
+- Tag devices and releases.
+- Create filters and views in the dashboard and use filters with the API.
+- Pin applications and devices to specific releases.
+- Detail the different ownership levels in an application.
+- Recommend best practices in deploying a fleet to production.
+- Enable support for application fleets and individual devices.
 
 ## References
 
-* [OData Specification](https://www.odata.org/)
-* [OData Query Cheatsheet](https://help.nintex.com/en-us/insight/OData/HE_CON_ODATAQueryCheatSheet.htm)
-* [balena API reference](https://www.balena.io/docs/reference/api/overview/)
-* [balena CLI masterclass](https://github.com/balena-io/balena-cli-masterclass)
+- [OData Specification](https://www.odata.org/)
+- [OData Query Cheatsheet](https://help.nintex.com/en-us/insight/OData/HE_CON_ODATAQueryCheatSheet.htm)
+- [balena API reference](https://www.balena.io/docs/reference/api/overview/)
+- [balena CLI masterclass](https://github.com/balena-io/balena-cli-masterclass)
