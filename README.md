@@ -322,7 +322,7 @@ Your name is Gareth Updated
 
 #### 3.3 Service Variables
 
-Environment variables are accessible to all services running on a device, whereas service variables are assigned to a specific service. Service variables can be created via the dashboard or via the API, either for the application or per device. The CLI does not currently support service-specific variables.
+Environment variables are accessible to all services running on a device, whereas service variables are assigned to a specific service. Service variables can be created via the dashboard, the CLI, or via the API, either for the application or per device.
 
 Create a new device service variable named `MY_NAME` from the _Device Service Variables_ tab of the Device dashboard and give it a unique value. As we only have a single service for this application, the default service value of `main` is the only available option.
 
