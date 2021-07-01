@@ -427,11 +427,11 @@ $ curl -X GET 'https://api.balena-cloud.com/v5/release?$filter=belongs_to__appli
 
 ### 5. Filtering
 
-Filters provide a convenient way to find specific devices and releases based on shared characteristics quickly.
+Once your application has at least 6 devices, you will be able to apply filters to the devices list. Filters provide a convenient way to find specific devices and releases based on shared characteristics quickly.
 
 #### 5.1 Add a new filter
 
-We are going to filter on a device tag that we just created, though you may filter on any device property available in the Device dashboard or on any user-defined tag. As we only have a single device, this example is more to demonstrate how this feature could be used on a larger fleet.
+We are going to filter on a device tag that we just created, though you may filter on any device property available in the Device dashboard or on any user-defined tag. This feature is especially helpful when used on larger fleets.
 
 Create a filter by clicking _Add filter_ on the Application dashboard and choose _Tag_ in the available filters and enter a _Name_ of `devDevice`.
 
