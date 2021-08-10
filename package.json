@@ -1,6 +1,6 @@
 {
   "name": "balena-fleet-management-masterclass",
-  "version": "0.0.16",
+  "version": "0.0.17",
   "description": "A guide to managing an application fleet with balena",
   "scripts": {
     "test": "echo \"There are no tests for this repository\" && exit 0"
@@ -15,5 +15,8 @@
     "url": "https://github.com/balena-io/balena-fleet-management-masterclass/issues"
   },
   "homepage": "https://github.com/balena-io/balena-fleet-management-masterclass#readme",
-  "private": true
+  "private": true,
+  "versionist": {
+    "publishedAt": "2021-08-10T19:00:46.488Z"
+  }
 }
