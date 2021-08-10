@@ -15,5 +15,8 @@
     "url": "https://github.com/balena-io/balena-fleet-management-masterclass/issues"
   },
   "homepage": "https://github.com/balena-io/balena-fleet-management-masterclass#readme",
-  "private": true
+  "private": true,
+  "versionist": {
+    "publishedAt": "2021-07-05T14:50:12.213Z"
+  }
 }
