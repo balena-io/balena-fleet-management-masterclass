@@ -11,14 +11,14 @@ This masterclass builds upon knowledge that has been taught in previous classes.
 
 ## Introduction
 
-This masterclass serves as an introduction to managing an application fleet with balena. In this masterclass you will learn how to:
+This masterclass serves as an introduction to managing a fleet with balena. In this masterclass you will learn how to:
 
-- Set configuration, environment, and service variables.
+- Set configuration and variables.
 - Tag and filter devices and releases.
-- Use a release policy to pin applications and devices to defined releases.
+- Use a release policy to pin fleets and devices to defined releases.
 - Identify the different available roles for a user in balenaCloud.
 - Obtain access tokens for interacting with the API, CLI, and SDKs.
-- Describe best practices for applications in a production environment.
+- Describe best practices for fleets in a production environment.
 
 If you have any questions about this masterclass as you proceed through it, or would like clarifications on any of the topics raised here, please do raise an issue as on the repository that contains this file, or contact us in the balena forums where we’ll be delighted to answer your questions.
 
@@ -48,14 +48,14 @@ $ balena version
 11.17.0
 ```
 
-### 1. Application Setup
+### 1. Fleet Setup
 
-#### 1.1 Create an Application and Provision a Device
+#### 1.1 Create Fleet and Provision a Device
 
-For the following exercises, we need an application and a device to run the code. Create an application named _FleetMasterclass_ and device using either the [Getting Started Guide](https://www.balena.io/docs/learn/getting-started/raspberrypi3/nodejs/) (to use the dashboard) or the [CLI masterclass](https://github.com/balena-io/balena-cli-masterclass) (to use the CLI). Be sure to download a development image, and when the device has been provisioned, list the device(s) associated with the application using the `balena devices` command of the CLI.
+For the following exercises, we need a fleet and a device to run the code. Create a fleet named _FleetMasterclass_ and device using either the [Getting Started Guide](https://www.balena.io/docs/learn/getting-started/raspberrypi3/nodejs/) (to use the dashboard) or the [CLI masterclass](https://github.com/balena-io/balena-cli-masterclass) (to use the CLI). Be sure to download a development image, and when the device has been provisioned, list the device(s) associated with the fleet using the `balena devices` command of the CLI.
 
 ```bash
-$ balena devices --app FleetMasterclass
+$ balena devices --fleet FleetMasterclass
 1750246 3a628fc frosty-wildflower raspberrypi4-64 FleetMasterclass      Idle   true      10.3.7             balenaOS 2.44.0+rev3 https://dashboard.balena-cloud.com/devices/3a628fcf6651dd61c94aef0fb88efee9/summary
 ```
 
@@ -144,7 +144,7 @@ $ balena push FleetMasterclass
 
 ```
 
-The application itself is a simple Python Flask application, which we will use to echo details about the code running on the device by either accessing the device in the browser or via the `curl` command from the terminal of your development machine. Using the `UUID.local` syntax of your device issue the following command:
+The service itself is a simple Python Flask service, which we will use to echo details about the code running on the device by either accessing the device in the browser or via the `curl` command from the terminal of your development machine. Using the `UUID.local` syntax of your device issue the following command:
 
 ```bash
 $ curl http://3a628fc.local
@@ -155,31 +155,31 @@ Alternatively, point your web browser to the device local IP address or `http://
 
 ### 2. Access Tokens
 
-During the masterclass, we will use the [balena API](https://www.balena.io/docs/reference/api/overview/) to manage the application and device(s). To get started using the API, you need an access token. Access tokens are managed via the _Access tokens tab_ of the [_Preferences_ page](https://dashboard.balena-cloud.com/preferences/access-tokens) of the dashboard.
+During the masterclass, we will use the [balena API](https://www.balena.io/docs/reference/api/overview/) to manage the fleet and device(s). To get started using the API, you need an access token. Access tokens are managed via the _Access tokens tab_ of the [_Preferences_ page](https://dashboard.balena-cloud.com/preferences/access-tokens) of the dashboard.
 
 ![Access tokens](https://github.com/balena-io-projects/balena-fleet-management-masterclass/raw/master/resources/rmGIGgB.png)
 
-Access tokens may be used to authenticate via the CLI, [SDKs](https://github.com/balena-io/balena-sdk), and all API endpoints. Access tokens should be treated as sensitive and stored securely and never committed to a version control system. Balena offers two types of access tokens that offer the same user-level permissions to manage applications, devices, and the associated user account.
+Access tokens may be used to authenticate via the CLI, [SDKs](https://github.com/balena-io/balena-sdk), and all API endpoints. Access tokens should be treated as sensitive and stored securely and never committed to a version control system. Balena offers two types of access tokens that offer the same user-level permissions to manage fleets, devices, and the associated user account.
 
 - **Session tokens** - these tokens expire after seven days and cannot be revoked, though they may be refreshed via the API.
 - **API Keys** - these are named tokens that do not expire and may be revoked as needed.
 
-Either type of access token can be used for this masterclass. Session tokens are much longer and may cause an issue in specific environments when executing shell commands using them, so using an API key for this masterclass is preferable. Once created, save the API key to an environment variable for the current shell with the following command, replacing `<YOUR_API_TOKEN>` with the value of the token obtained from the dashboard.
+Either type of access token can be used for this masterclass. Session tokens are much longer and may cause an issue in specific environments when executing shell commands using them, so using an API key for this masterclass is preferable. Once created, save the API key to an variable for the current shell with the following command, replacing `<YOUR_API_TOKEN>` with the value of the token obtained from the dashboard.
 
 ```bash
 API_TOKEN=<YOUR_API_TOKEN>
 ```
 
-We can test the API token by issuing a request to obtain information about the application named _FleetMasterclass_. The URL is encoded in the example below, which makes it hard to read; the decoded query we are making is: `https://api.balena-cloud.com/v5/application?$filter=app_name eq 'FleetMasterclass'`.
+We can test the API token by issuing a request to obtain information about the fleet named _FleetMasterclass_. The URL is encoded in the example below, which makes it hard to read; the decoded query we are making is: `https://api.balena-cloud.com/v5/fleet?$filter=fleet_name eq 'FleetMasterclass'`.
 
 ```bash
-curl -X GET 'https://api.balena-cloud.com/v5/application?$filter=app_name%20eq%20%27FleetMasterclass%27' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json'
+curl -X GET 'https://api.balena-cloud.com/v5/fleet?$filter=fleet_name%20eq%20%27FleetMasterclass%27' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json'
 ```
 
-If you have an application named _FleetMasterclass_ associated with your account, a JSON object containing the application data will be returned. To make this easier to read, pipe the output into the `jq` utility by appending `| jq '.'` to the end of the previous command:
+If you have a fleet named _FleetMasterclass_ associated with your account, a JSON object containing the fleet data will be returned. To make this easier to read, pipe the output into the `jq` utility by appending `| jq '.'` to the end of the previous command:
 
 ```bash
-curl -X GET 'https://api.balena-cloud.com/v5/application?$filter=app_name%20eq%20%27FleetMasterclass%27' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json' | jq '.'
+curl -X GET 'https://api.balena-cloud.com/v5/fleet?$filter=fleet_name%20eq%20%27FleetMasterclass%27' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json' | jq '.'
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
 100   492  100   492    0     0   1233      0 --:--:-- --:--:-- --:--:--  1230
@@ -193,14 +193,14 @@ curl -X GET 'https://api.balena-cloud.com/v5/application?$filter=app_name%20eq%2
         },
         "__id": 129965
       },
-      "depends_on__application": null,
+      "depends_on__fleet": null,
       "actor": 4187117,
-      "app_name": "FleetMasterclass",
+      "fleet_name": "FleetMasterclass",
       "slug": "gh_garethtdavies/masterclass",
       "commit": "06fe2d0180683294128ea2c7d8134d99",
-      "application_type": {
+      "fleet_type": {
         "__deferred": {
-          "uri": "/resin/application_type(5)"
+          "uri": "/resin/fleet_type(5)"
         },
         "__id": 5
       },
@@ -208,24 +208,24 @@ curl -X GET 'https://api.balena-cloud.com/v5/application?$filter=app_name%20eq%2
       "should_track_latest_release": true,
       "is_accessible_by_support_until__date": null,
       "__metadata": {
-        "uri": "/resin/application(@id)?@id=1550049"
+        "uri": "/resin/fleet(@id)?@id=1550049"
       }
     }
   ]
 }
 ```
 
-> Note: If you see a blank output or an unauthorized response, ensure that you have set the `API_TOKEN` environment variable. You can check this by running `echo $API_TOKEN` in your terminal, which should output the value of the access token. Environment variables set this way do not persist between sessions, so if you close your terminal, you will need to set the API_TOKEN variable again or [make it persistent](https://www.serverlab.ca/tutorials/linux/administration-linux/how-to-set-environment-variables-in-linux/).
+> Note: If you see a blank output or an unauthorized response, ensure that you have set the `API_TOKEN` variable. You can check this by running `echo $API_TOKEN` in your terminal, which should output the value of the access token. Variables set this way do not persist between sessions, so if you close your terminal, you will need to set the API_TOKEN variable again or [make it persistent](https://www.serverlab.ca/tutorials/linux/administration-linux/how-to-set-environment-variables-in-linux/).
 
 ### 3. Configuration
 
-You can configure your entire application fleet, devices, and individual services through the use of configuration, environment, and service variables. Variables may be defined at both the fleet (application) and device level, with any variables of the same name set at the device-level taking precedence.
+You can configure your entire fleet, devices, and individual services through the use of configuration, variables. Variables may be defined at both the fleet and device level, with any variables of the same name set at the device-level taking precedence.
 
 #### 3.1 Configuration Variables
 
 Configuration variables provide runtime configuration to the host OS and supervisor. A description of the various available configuration variables can be found [here](https://www.balena.io/docs/learn/manage/configuration/#variable-list).
 
-Let's enable persistent logging for our device via the API. By default, logs are written to an 8MB journald RAM buffer to avoid wear on the storage medium, and so any logs do not persist on a reboot. Enabling persistent logging writes up to 32MB of logs to the data partition of the device (for balenaOS >= 2.45) and can assist in debugging issues over multiple reboots. To enable persistent logging for a device, send the following POST request replacing your `device_id` in the request below. You can obtain your device ID from the output of `balena devices --app FleetMasterclass`.
+Let's enable persistent logging for our device via the API. By default, logs are written to an 8MB journald RAM buffer to avoid wear on the storage medium, and so any logs do not persist on a reboot. Enabling persistent logging writes up to 32MB of logs to the data partition of the device (for balenaOS >= 2.45) and can assist in debugging issues over multiple reboots. To enable persistent logging for a device, send the following POST request replacing your `device_id` in the request below. You can obtain your device ID from the output of `balena devices --fleet FleetMasterclass`.
 
 ```bash
 curl -X POST 'https://api.balena-cloud.com/v5/device_config_variable' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json' -d '{
@@ -278,38 +278,38 @@ If you don't know the device configuration variable id, you can list all configu
 curl -X GET 'https://api.balena-cloud.com/v5/device_config_variable?$filter=device%20eq%202134742' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json'
 ```
 
-You can also update this configuration value for the entire fleet. Access the _Fleet Configuration_ tab of the Applications dashboard and select _activate_ next to _Enable persistent logging. Only supported by supervisor versions >= v7.15.0._. Then click on _Enable_ to set the configuration value. Note that because we have an existing override for the device, it will not be applied to our device but only to any additional devices joining the application.
+You can also update this configuration value for the entire fleet. Access the _Configuration_ tab of the Fleet dashboard and select _activate_ next to _Enable persistent logging. Only supported by supervisor versions >= v7.15.0._. Then click on _Enable_ to set the configuration value. Note that because we have an existing override for the device, it will not be applied to our device but only to any additional devices joining the fleet.
 
 ![Enable persistent logging](https://github.com/balena-io-projects/balena-fleet-management-masterclass/raw/master/resources/2wGmef2.gif)
 
-#### 3.2 Environment Variables
+#### 3.2 Variables
 
-Environment variables allow the providing of runtime configuration to one or more running services without having to modify your source code. You can add environment variables to an entire fleet or a single device. Use the CLI to create an application environment variable called _MY_NAME_ and give it a value of your own name e.g.
+Variables allow the providing of runtime configuration to one or more running services without having to modify your source code. You can add variables to an entire fleet or a single device. Use the CLI to create a fleet variable called _MY_NAME_ and give it a value of your own name e.g.
 
 ```bash
-$ balena env add MY_NAME Gareth --application FleetMasterclass
+$ balena env add MY_NAME Gareth --fleet FleetMasterclass
 ```
 
-Now we'll update our application to echo this application environment variable. Update line 7 of `src/main.py` taking care to keep the indentation:
+Now we'll update our service to echo this fleet variable. Update line 7 of `src/main.py` taking care to keep the indentation:
 
 ```python
     return "Your name is " + os.environ.get('MY_NAME')
 ```
 
-Now push the updated application:
+Now push the updated services:
 
 ```bash
 $ balena push FleetMasterclass
 ```
 
-Once it has been downloaded to the device, view the output on the device, which should match the environment variable we just set:
+Once it has been downloaded to the device, view the output on the device, which should match the variable we just set:
 
 ```bash
 $ curl http://3a628fc.local
 Your name is Gareth
 ```
 
-We can override this application environment variable at the device level by creating a device environment variable of the same name. Do this from the _Device Variables_ tab of the Device dashboard, modifying the `MY_NAME` variable with a new value.
+We can override this fleet variable at the device level by creating a device variable of the same name. Do this from the _Device Variables_ tab of the Device dashboard, modifying the `MY_NAME` variable with a new value.
 
 ![Add a device variable](https://github.com/balena-io-projects/balena-fleet-management-masterclass/raw/master/resources/Zb7rasz.gif)
 
@@ -320,15 +320,15 @@ $ curl http://3a628fc.local
 Your name is Gareth Updated
 ```
 
-#### 3.3 Service Variables
+#### 3.3 Variables
 
-Environment variables are accessible to all services running on a device, whereas service variables are assigned to a specific service. Service variables can be created via the dashboard, the CLI, or via the API, either for the application or per device.
+Variables are accessible to all services running on a device, whereas variables are assigned to a specific service. Variables can be created via the dashboard, the CLI, or via the API, either for the fleet or per device.
 
-Create a new device service variable named `MY_NAME` from the _Device Service Variables_ tab of the Device dashboard and give it a unique value. As we only have a single service for this application, the default service value of `main` is the only available option.
+Create a new device variable named `MY_NAME` from the _Device Variables_ tab of the Device dashboard and give it a unique value. As we only have a single service for this fleet, the default service value of `main` is the only available option.
 
-![Add device service variable](https://github.com/balena-io-projects/balena-fleet-management-masterclass/raw/master/resources/HcEZd6b.gif)
+![Add device variable](https://github.com/balena-io-projects/balena-fleet-management-masterclass/raw/master/resources/HcEZd6b.gif)
 
-Now you should see our device service variable echoed correctly, taking precedence over the other environment variables.
+Now you should see our device variable echoed correctly, taking precedence over the other variables.
 
 ```bash
 curl 3a628fc.local
@@ -343,9 +343,9 @@ You can manage tags via the dashboard, CLI, API, or SDKs. Check the documentatio
 
 #### 4.1 Add a Device Tag using the Dashboard
 
-Add a tag from the Application dashboard by clicking the checkbox to the left of the device(s) you wish to tag, followed by the _Tags_ button on the right side of the dashboard.
+Add a tag from the Fleet dashboard by clicking the checkbox to the left of the device(s) you wish to tag, followed by the _Tags_ button on the right side of the dashboard.
 
-Enter the name of the tag as `devDevice` to identify this device as a development one in the application fleet for our use (we will later use this tag in the examples for filtering). We can specify a name only or both a name and value pair. In this example, we are just adding a tag name. Tag names must be unique.
+Enter the name of the tag as `devDevice` to identify this device as a development one in the fleet for our use (we will later use this tag in the examples for filtering). We can specify a name only or both a name and value pair. In this example, we are just adding a tag name. Tag names must be unique.
 
 > Note, the following GIFs and screenshots use the tag `development`. However, to avoid confusion with the host OS version (also named development) it is strongly recommended you create your tag as `devDevice` or similar.
 
@@ -357,7 +357,7 @@ To edit the tag, you can repeat the process, selecting the device(s) and clickin
 
 #### 4.2 Add a Release Tag using the API
 
-Using release tags, we can identify releases by something other than a commit hash or release ID. For example, let's update our application and give the latest release a `version:v1.0.0` tag.
+Using release tags, we can identify releases by something other than a commit hash or release ID. For example, let's update our fleet and give the latest release a `version:v1.0.0` tag.
 
 Update line 7 of `src/main.py` to the following:
 
@@ -365,7 +365,7 @@ Update line 7 of `src/main.py` to the following:
     return "I am version 1.0.0 of the Masterclass"
 ```
 
-Push the latest version of the application noting the release ID in the build output (we'll see alternative ways of obtaining this information later).
+Push the latest version of the service noting the release ID in the build output (we'll see alternative ways of obtaining this information later).
 
 ```bash
 $ balena push FleetMasterclass
@@ -405,7 +405,7 @@ If the request is successful you will see a response for the newly created tag:
 }
 ```
 
-We can confirm that this worked by visiting the Application dashboard and clicking the _Releases_ tab. You may need to add a new column to view the tags associated with the releases and our newly created `version:v1.0.0` tag.
+We can confirm that this worked by visiting the Fleet dashboard and clicking the _Releases_ tab. You may need to add a new column to view the tags associated with the releases and our newly created `version:v1.0.0` tag.
 
 ![Release tag](https://github.com/balena-io-projects/balena-fleet-management-masterclass/raw/master/resources/1vrS6bw.png)
 
@@ -413,27 +413,27 @@ We can confirm that this worked by visiting the Application dashboard and clicki
 
 #### 4.3 Identifying Releases
 
-There is no CLI equivalent of `balena devices` to determine all releases for an application, and you will often need to identify specific releases for tagging purposes.
+There is no CLI equivalent of `balena devices` to determine all releases for a fleet, and you will often need to identify specific releases for tagging purposes.
 
-You can find all releases via the dashboard by clicking the _Releases_ tab in the Application dashboard.
+You can find all releases via the dashboard by clicking the _Releases_ tab in the Fleet dashboard.
 
 ![Dashboard releases](https://github.com/balena-io-projects/balena-fleet-management-masterclass/raw/master/resources/qJTGXKk.png)
 
-Using the API, we can request all releases for an application by issuing the following request, using the `app_id` of the application (1542022) in this example. You can obtain the `app_id` via `balena apps | grep FleetMasterclass`.
+Using the API, we can request all releases for a fleet by issuing the following request, using the `fleet_id` of the fleet (1542022) in this example. You can obtain the `fleet_id` via `balena fleets | grep FleetMasterclass`.
 
 ```bash
-$ curl -X GET 'https://api.balena-cloud.com/v5/release?$filter=belongs_to__application%20eq%201542022' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json' | jq '.'
+$ curl -X GET 'https://api.balena-cloud.com/v5/release?$filter=belongs_to__fleet%20eq%201542022' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json' | jq '.'
 ```
 
 ### 5. Filtering
 
-Once your application has at least 6 devices, you will be able to apply filters to the devices list. Filters provide a convenient way to find specific devices and releases based on shared characteristics quickly.
+Once your fleet has at least 6 devices, you will be able to apply filters to the devices list. Filters provide a convenient way to find specific devices and releases based on shared characteristics quickly.
 
 #### 5.1 Add a new filter
 
 We are going to filter on a device tag that we just created, though you may filter on any device property available in the Device dashboard or on any user-defined tag. This feature is especially helpful when used on larger fleets.
 
-Create a filter by clicking _Add filter_ on the Application dashboard and choose _Tag_ in the available filters and enter a _Name_ of `devDevice`.
+Create a filter by clicking _Add filter_ on the Fleet dashboard and choose _Tag_ in the available filters and enter a _Name_ of `devDevice`.
 
 ![Create a filter](https://github.com/balena-io-projects/balena-fleet-management-masterclass/raw/master/resources/n8Sks0z.gif)
 
@@ -447,10 +447,10 @@ Views allow us to save filters, rather than having to reenter them each time we 
 
 The API has powerful filter capabilities through the use of the `$filter` property. We will only cover the basic filters, and more detail can be found via the [OData specification](https://www.odata.org/) or this [OData cheatsheet](https://help.nintex.com/en-us/insight/OData/HE_CON_ODATAQueryCheatSheet.htm) for all available filter operations.
 
-For example, let's find all the devices in our application that are online using the app id (1550049) in the example. For readability, the decoded version of this query is `https://api.balena-cloud.com/v5/device?$filter=belongs_to__application eq '1550049' and is_online eq true`.
+For example, let's find all the devices in our fleet that are online using the fleet id (1550049) in the example. For readability, the decoded version of this query is `https://api.balena-cloud.com/v5/device?$filter=belongs_to__fleet eq '1550049' and is_online eq true`.
 
 ```bash
-curl -X GET 'https://api.balena-cloud.com/v5/device?$filter=belongs_to__application%20eq%20%271550049%27%20and%20is_online%20eq%20true' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json'
+curl -X GET 'https://api.balena-cloud.com/v5/device?$filter=belongs_to__fleet%20eq%20%271550049%27%20and%20is_online%20eq%20true' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json'
 ```
 
 ```json
@@ -477,10 +477,10 @@ curl -X GET 'https://api.balena-cloud.com/v5/device?$filter=belongs_to__applicat
 }
 ```
 
-The response from that query should return your online device(s). If you power off your device(s) and run the query again, you should get an empty response. Alternatively, change `is_online` to `false` to display the now offline device(s) for the _FleetMasterclass_ application.
+The response from that query should return your online device(s). If you power off your device(s) and run the query again, you should get an empty response. Alternatively, change `is_online` to `false` to display the now offline device(s) for the _FleetMasterclass_ fleet.
 
 ```bash
-curl -X GET 'https://api.balena-cloud.com/v5/device?$filter=belongs_to__application%20eq%20%271550049%27%20and%20is_online%20eq%20false' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json'
+curl -X GET 'https://api.balena-cloud.com/v5/device?$filter=belongs_to__fleet%20eq%20%271550049%27%20and%20is_online%20eq%20false' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json'
 ```
 
 We can also identify our devices tagged as `devDevice` via the API by using the following request:
@@ -491,19 +491,19 @@ curl -X GET 'https://api.balena-cloud.com/v5/device_tag?$filter=tag_key%20eq%20%
 
 ### 6. Release Policy
 
-When managing an application fleet, you may require devices to be running different releases, for example, when testing a new release. By default, new releases are deployed to all devices in the fleet once successfully built. However, you can customize this behavior, so the application fleet or individual devices remain on a fixed release by _pinning_ them.
+When managing a fleet, you may require devices to be running different releases, for example, when testing a new release. By default, new releases are deployed to all devices in the fleet once successfully built. However, you can customize this behavior, so the fleet or individual devices remain on a fixed release by _pinning_ them.
 
-You can define the application and device release policy via the dashboard or programmatically through the API or SDKs.
+You can define the fleet and device release policy via the dashboard or programmatically through the API or SDKs.
 
-#### 6.1 Pin an Application to a Release
+#### 6.1 Pin a Fleet to a Release
 
-In the last exercise, we pushed a release that we tagged as `version:v1.0.0`. We want our application to remain on this release even if newer releases are deployed (for example, we may wish to test the newer releases on a subset of devices before we push to the remainder of the application fleet).
+In the last exercise, we pushed a release that we tagged as `version:v1.0.0`. We want our fleet to remain on this release even if newer releases are deployed (for example, we may wish to test the newer releases on a subset of devices before we push to the remainder of the fleet).
 
-In the Applications dashboard, there is a _Release policy_ header. By default, this is set to `track latest`, which means that new releases are immediately deployed to all devices in the fleet when built. Expanding this _Release policy_ dropdown menu displays all releases for the application, from which you can select a specific release to pin the application to. When the application is pinned, all devices are immediately updated to run the pinned release if they are not already running it, and in the future, releases will not be deployed until the _Release policy_ is updated to a newer release or set to `track latest`.
+In the Fleet dashboard, there is a _Release policy_ header. By default, this is set to `track latest`, which means that new releases are immediately deployed to all devices in the fleet when built. Expanding this _Release policy_ dropdown menu displays all releases for the fleet, from which you can select a specific release to pin the fleet to. When the fleet is pinned, all devices are immediately updated to run the pinned release if they are not already running it, and in the future, releases will not be deployed until the _Release policy_ is updated to a newer release or set to `track latest`.
 
-Pin your application to the latest release by selecting it from the dropdown.
+Pin your fleet to the latest release by selecting it from the dropdown.
 
-![Pin application to release](https://github.com/balena-io-projects/balena-fleet-management-masterclass/raw/master/resources/OdrQvC7.gif)
+![Pin fleet to release](https://github.com/balena-io-projects/balena-fleet-management-masterclass/raw/master/resources/OdrQvC7.gif)
 
 Now update line #7 of `src/main.py` to read:
 
@@ -511,7 +511,7 @@ Now update line #7 of `src/main.py` to read:
     return "I am version 2.0.0 of the Masterclass"
 ```
 
-Deploy this release via `balena push FleetMasterclass`, and now, despite there being a newer release, the application and device remain on the `v1.0.0` release which you can validate by issuing the following command:
+Deploy this release via `balena push FleetMasterclass`, and now, despite there being a newer release, the fleet and device remain on the `v1.0.0` release which you can validate by issuing the following command:
 
 ```bash
 curl 3a628fc.local
@@ -520,9 +520,9 @@ I am version 1.0.0 of the FleetMasterclass
 
 #### 6.2 Pin Device to a Release
 
-As well as pinning an entire application to a specific release, you may pin individual devices. By default, all devices track the application release policy. However, you may wish to run a different release on select devices, for example, a development device or when performing a canary deployment where a subset of devices receive the update to evaluate it before pushing more widely.
+As well as pinning an entire fleet to a specific release, you may pin individual devices. By default, all devices track the fleet release policy. However, you may wish to run a different release on select devices, for example, a development device or when performing a canary deployment where a subset of devices receive the update to evaluate it before pushing more widely.
 
-From the Applications dashboard, select the device(s) you wish to pin and choose _Pin to release_ from the Actions menu and select the latest release.
+From the fleet dashboard, select the device(s) you wish to pin and choose _Pin to release_ from the Actions menu and select the latest release.
 
 ![Pin device to release](https://github.com/balena-io-projects/balena-fleet-management-masterclass/raw/master/resources/oIyfmmc.gif)
 
@@ -543,12 +543,12 @@ We can use the filter and view we created in exercise #5 to quickly select all o
 
 #### 6.3 Pin using the API
 
-We can perform similar actions via the API to pin applications and devices programmatically.
+We can perform similar actions via the API to pin fleets and devices programmatically.
 
-For applications, the `should_track_latest_release` property specifies if the latest release should be deployed to devices. Let's see the result of our currently pinned application, again we'll get a list of applications filtered by _FleetMasterclass_:
+For fleets, the `should_track_latest_release` property specifies if the latest release should be deployed to devices. Let's see the result of our currently pinned fleet, again we'll get a list of fleets filtered by _FleetMasterclass_:
 
 ```bash
-$ curl -X GET 'https://api.balena-cloud.com/v5/application?$filter=app_name%20eq%20%27FleetMasterclass%27' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json' | jq '.'
+$ curl -X GET 'https://api.balena-cloud.com/v5/fleet?$filter=fleet_name%20eq%20%27FleetMasterclass%27' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json' | jq '.'
 ```
 
 ```json
@@ -562,14 +562,14 @@ $ curl -X GET 'https://api.balena-cloud.com/v5/application?$filter=app_name%20eq
         },
         "__id": 129965
       },
-      "depends_on__application": null,
+      "depends_on__fleet": null,
       "actor": 4187117,
-      "app_name": "FleetMasterclass",
+      "fleet_name": "FleetMasterclass",
       "slug": "gh_garethtdavies/masterclass",
       "commit": "56faf0d8be050fbd65e15d8ab0f23993",
-      "application_type": {
+      "fleet_type": {
         "__deferred": {
-          "uri": "/resin/application_type(5)"
+          "uri": "/resin/fleet_type(5)"
         },
         "__id": 5
       },
@@ -577,14 +577,14 @@ $ curl -X GET 'https://api.balena-cloud.com/v5/application?$filter=app_name%20eq
       "should_track_latest_release": false,
       "is_accessible_by_support_until__date": null,
       "__metadata": {
-        "uri": "/resin/application(@id)?@id=1550049"
+        "uri": "/resin/fleet(@id)?@id=1550049"
       }
     }
   ]
 }
 ```
 
-Note that `should_track_latest_release` is `false`, and the commit corresponds to the release we pinned the application to. Let's update this so that the application once again follows the latest release. First, update line 7 of `src/main.py` to read:
+Note that `should_track_latest_release` is `false`, and the commit corresponds to the release we pinned the fleet to. Let's update this so that the fleet once again follows the latest release. First, update line 7 of `src/main.py` to read:
 
 ```python
     return "I am version 3.0.0 of the Masterclass"
@@ -592,26 +592,26 @@ Note that `should_track_latest_release` is `false`, and the commit corresponds t
 
 Followed by `$ balena push FleetMasterclass`.
 
-As our device is pinned to the version 2.0.0 release, it will not follow any application updates, so first, via the Device dashboard, choose _Pin to release_ and change the device release policy to _Track_, so the device once again follows the application device policy (which is currently pinned to version 1.0.0).
+As our device is pinned to the version 2.0.0 release, it will not follow any fleet updates, so first, via the Device dashboard, choose _Pin to release_ and change the device release policy to _Track_, so the device once again follows the fleet release policy (which is currently pinned to version 1.0.0).
 
-![Set device to track application](https://github.com/balena-io-projects/balena-fleet-management-masterclass/raw/master/resources/TuNzfyb.png)
+![Set device to track fleet](https://github.com/balena-io-projects/balena-fleet-management-masterclass/raw/master/resources/TuNzfyb.png)
 
-Once updated, confirm it is again following the application release policy:
+Once updated, confirm it is again following the fleet release policy:
 
 ```bash
 $ curl 3a628fc.local
 I am version 1.0.0 of the Masterclass
 ```
 
-Now issue the following API request, which sends a PATCH request to set `should_track_latest` to `true`, so the application will deploy the latest available release, replacing the app_id with your application ID.
+Now issue the following API request, which sends a PATCH request to set `should_track_latest` to `true`, so the fleet will deploy the latest available release, replacing the fleet_id with your fleet ID.
 
 ```bash
-$ curl -X PATCH 'https://api.balena-cloud.com/v5/application(1542022)' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json' -d '{
+$ curl -X PATCH 'https://api.balena-cloud.com/v5/fleet(1542022)' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json' -d '{
     "should_track_latest_release": true
 }'
 ```
 
-If successful, all devices that are following the application release policy will be updated to the latest available release. Now, accessing the device again we can confirm we are on the latest release:
+If successful, all devices that are following the fleet release policy will be updated to the latest available release. Now, accessing the device again we can confirm we are on the latest release:
 
 ```bash
 $ curl 3a628fc.local
@@ -623,7 +623,7 @@ After we deployed this, let's imagine we found a bug in the version 3.0.0 releas
 In the API request, we will set both `should_track_latest_release` to `false` and set the commit to the commit hash of the version we want to roll back to. If we don't set `should_track_latest_release` to `false` while all devices will be updated to the specified commit, if any new releases are deployed, they will be pushed to all devices, which may not be the behavior we want.
 
 ```bash
-$ curl -X PATCH 'https://api.balena-cloud.com/v5/application(1550049)' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json' -d '{
+$ curl -X PATCH 'https://api.balena-cloud.com/v5/fleet(1550049)' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json' -d '{
     "should_track_latest_release": false,
     "commit": "9ba8aa013aab5c0fd8c24977c3699f25"
 }'
@@ -637,7 +637,7 @@ $ curl 3a628fc.local
 I am version 2.0.0 of the Masterclass
 ```
 
-For devices, the `should_be_running__release` property may be used to specify a release ID to pin the device to. When this is set, the device will no longer follow the application release policy. We can update our development device to v3.0.0 again and use this device to test our application (properly this time) while the rest of the application fleet remains on v2.0.0. Issue the following API request replacing your device ID and release ID:
+For devices, the `should_be_running__release` property may be used to specify a release ID to pin the device to. When this is set, the device will no longer follow the fleet release policy. We can update our development device to v3.0.0 again and use this device to test our service (properly this time) while the rest of the fleet remains on v2.0.0. Issue the following API request replacing your device ID and release ID:
 
 ```bash
 curl -X PATCH 'https://api.balena-cloud.com/v5/device(1750246)' -H 'Authorization: Bearer nmotTcNaNiS3p5DrQepRhk6hQ9luNX9f' -H 'Content-Type: application/json' -d '{
@@ -651,12 +651,12 @@ When it is time to move your fleet to production, there are a number of recommen
 
 - Use frozen images and fixed dependencies to ensure there are no unexpected updates.
 - Minimize the size of your releases through the use of [multistage builds](https://github.com/balena-io/services-masterclass#6-multi-stage-builds) and the minimal `run` variants of the [balena base images](https://www.balena.io/docs/reference/base-images/base-images/).
-- Use a release policy to safely roll out new application deployments through the use of release pinning.
+- Use a release policy to safely roll out new service deployments through the use of release pinning.
 - Enable [delta updates](https://www.balena.io/docs/learn/deploy/delta/) to reduce bandwidth and storage space required on the device. Note that delta updates are now enabled by default for any devices running balenaOS >= 2.47.1.
 - Use an ESR version of the host OS if available.
 - Test your releases before deployment with a CI/CD pipeline.
-- If your application generates significant log data consider adding a log collection agent to your application containers.
-- Monitor your application with a solution such as [Prometheus](https://prometheus.io/).
+- If your service generates significant log data consider adding a log collection service to your fleet.
+- Monitor your fleet with a solution such as [Prometheus](https://prometheus.io/).
 
 #### 7.1 Selecting Base Images
 
@@ -664,7 +664,7 @@ In production, you should use a minimal image to reduce bandwidth requirements a
 
 In addition, you should choose a frozen image to remove any unexpected updates of the base image, which may result in additional bandwidth.
 
-To illustrate this, we will update our application to use a more suitable base image for production. In the `Dockerfile.template` update the base image to:
+To illustrate this, we will update our fleet to use a more suitable base image for production. In the `Dockerfile.template` update the base image to:
 
 ```Docker
 FROM balenalib/%%BALENA_MACHINE_NAME%%-debian-python:3.7.5-stretch-run-20191106
@@ -674,46 +674,46 @@ We are using a frozen image of `20191106`, which means this image will never be 
 
 #### 7.2 Integrating a CI/CD pipeline
 
-Another aspect of fleet management is the deployment of an application to that fleet when new code for that application is available. Usually, the CI/CD pipeline for new functionality into an application consists of:
+Another aspect of fleet management is the deployment of a service to that fleet when new code for that service is available. Usually, the CI/CD pipeline for new functionality into a fleet consists of:
 
 1. An engineer implementing this functionality and then testing it locally.
-2. The release, or Pull Requesting (PRing), of code to an application branch for reviewing and end-to-end testing, usually in a staged environment.
-3. The merging of code into the `master` branch of an application.
+2. The release, or Pull Requesting (PRing), of code to a fleet branch for reviewing and end-to-end testing, usually in a staged environment.
+3. The merging of code into the `master` branch of a fleet.
 
-For feature implementation and testing, a development device can be put into 'local mode'. This allows an engineer to push new application code straight to a local device, saving time and not filling up application releases with development code. See [the documentation for local mode](https://www.balena.io/docs/learn/develop/local-mode/) and the section in the [balena CLI masterclass](https://github.com/balena-io/balena-cli-masterclass#6-using-local-mode-to-develop-applications).
+For feature implementation and testing, a development device can be put into 'local mode'. This allows an engineer to push new service code straight to a local device, saving time and not filling up releases with development code. See [the documentation for local mode](https://www.balena.io/docs/learn/develop/local-mode/) and the section in the [balena CLI masterclass](https://github.com/balena-io/balena-cli-masterclass#6-using-local-mode-to-develop-applications).
 
-Usually, most customers use third-party CI/CD services such as Jenkins, CircleCI, Travis, etc. which pull changes from feature branches in source repositories, build them and then test the built applications against a test 'rig'. All of the mentioned services (and almost all CI/CD services) allow the specification of custom scripts for initializing environments for these build/test cycles, and balena CLI can be installed via a script to carry out the final pushing of code to an application for release. Here's how a generic development, build, test cycle might work:
+Usually, most customers use third-party CI/CD services such as Jenkins, CircleCI, Travis, etc. which pull changes from feature branches in source repositories, build them and then test the built service against a test 'rig'. All of the mentioned services (and almost all CI/CD services) allow the specification of custom scripts for initializing environments for these build/test cycles, and balena CLI can be installed via a script to carry out the final pushing of code to a fleet for release. Here's how a generic development, build, test cycle might work:
 
-1. Engineer develops new functionality for an application using a device in local mode.
-2. PR for changes are made to the application via a branch.
-3. The branch change is picked up by the third-party CI/CD service, where the build and test environment includes the `balena-cli` NPM module, and a test application on balenaCloud is referenced.
-4. The application is built using `balena push testApplication` and relevant test devices are updated and tested.
+1. Engineer develops new functionality for a service using a device in local mode.
+2. PR for changes are made to the service via a branch.
+3. The branch change is picked up by the third-party CI/CD service, where the build and test environment includes the `balena-cli` NPM module, and a test fleet on balenaCloud is referenced.
+4. The service is built using `balena push testFleet` and relevant test devices are updated and tested.
 5. The test succeeds or fails, and the PR is updated accordingly.
 6. Finally, after successful testing and review, the branch is merged to `master`.
-7. The CI/CD service picks up the merge and carries out the final build, where the `master` branch swaps the application to build to the production application (i.e. `balena push masterApplication`).
+7. The CI/CD service picks up the merge and carries out the final build, where the `master` branch swaps the service to build to the production fleet (i.e. `balena push masterFleet`).
 
-### 8. Application Ownership
+### 8. Fleet Ownership
 
-In balenaCloud, there are multiple member types, each offering different permissions (some of which are only available to paid plans). You can add application members on the _Members_ tab of the Application dashboard:
+In balenaCloud, there are multiple member types, each offering different permissions (some of which are only available to paid plans). You can add members to the fleet on the _Members_ tab of the dashboard:
 
-![Add application member](https://github.com/balena-io-projects/balena-fleet-management-masterclass/raw/master/resources/cNNoT1K.png)
+![Add fleet member](https://github.com/balena-io-projects/balena-fleet-management-masterclass/raw/master/resources/cNNoT1K.png)
 
-- **Owner** - The user who created the application and has full permissions to add other members and remove the application.
-- **Observer** - Observers are given read-only access to the application and its devices.
-- **Operator** - Operators have all the access given to observers, plus the ability to manage an application's devices. This means operators can remove devices, perform device actions, and modify device tags, metadata, and environment variables. Operators also have full SSH access to the application's devices.
-- **Developer** - Developers are given, in addition to the access provided to operators, the ability to manage an application. This includes pushing new code, modifying fleet-wide environment variables, running application actions, and downloading application images.
+- **Owner** - The user who created the fleet and has full permissions to add other members and remove the fleet.
+- **Observer** - Observers are given read-only access to the fleet and its devices.
+- **Operator** - Operators have all the access given to observers, plus the ability to manage fleet devices. This means operators can remove devices, perform device actions, and modify device tags, metadata, and variables. Operators also have full SSH access to the fleet devices.
+- **Developer** - Developers are given, in addition to the access provided to operators, the ability to manage a fleet. This includes pushing new code, modifying fleet-wide variables, running fleet actions, and downloading fleet images.
 
 ### 9. Enabling Support
 
-It is possible to enable support access to the entire application fleet or to individual devices for a set time period.
+It is possible to enable support access to the entire fleet or to individual devices for a set time period.
 
 To enable support access for a single device, select the _Actions_ menu in the Device dashboard, and choose the _Grant Support Access_ button and choose the period of time to grant device access. You may revoke access at any time by selecting _Revoke Support Access_ on the same page.
 
 ![Enable support for a device](https://github.com/balena-io-projects/balena-fleet-management-masterclass/raw/master/resources/L1EjGQa.gif)
 
-To enable support access for an entire application fleet, select the _Grant Support Access_ from the _Actions_ menu of the Application dashboard and choose the period of time to grant access to all devices in the application fleet. Again, this may be revoked at any time by selecting _Revoke Support Access_ on the same page.
+To enable support access for an entire fleet, select the _Grant Support Access_ from the _Actions_ menu of the Fleet dashboard and choose the period of time to grant access to all devices in the fleet. Again, this may be revoked at any time by selecting _Revoke Support Access_ on the same page.
 
-![Enable support access for an application](https://github.com/balena-io-projects/balena-fleet-management-masterclass/raw/master/resources/2eMvJf8.png)
+![Enable support access for a fleet](https://github.com/balena-io-projects/balena-fleet-management-masterclass/raw/master/resources/2eMvJf8.png)
 
 It is possible to disable this functionality with the removal of the balena SSH public key from the device. However, this will render the device inaccessible remotely for the purposes of support or repairs and updates to the base OS.
 
@@ -722,13 +722,13 @@ It is possible to disable this functionality with the removal of the balena SSH 
 This masterclass has covered the fundamentals of fleet management with balena. You should now be able to perform various fleet management tasks using the dashboard, CLI, and API. You should now feel confident to:
 
 - Create an API key and create an API request.
-- Describe the different configuration, environment, and service variables available.
+- Describe the different configuration, variables available.
 - Tag devices and releases.
 - Create filters and views in the dashboard and use filters with the API.
-- Pin applications and devices to specific releases.
-- Detail the different ownership levels in an application.
+- Pin fleets and devices to specific releases.
+- Detail the different ownership levels in a fleet.
 - Recommend best practices in deploying a fleet to production.
-- Enable support for application fleets and individual devices.
+- Enable support for fleets and individual devices.
 
 ## References
 
