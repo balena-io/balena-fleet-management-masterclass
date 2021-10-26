@@ -422,7 +422,7 @@ You can find all releases via the dashboard by clicking the _Releases_ tab in th
 Using the API, we can request all releases for a fleet by issuing the following request, using the `fleet_id` of the fleet (1542022) in this example. You can obtain the `fleet_id` via `balena fleets | grep FleetMasterclass`.
 
 ```bash
-$ curl -X GET 'https://api.balena-cloud.com/v5/release?$filter=belongs_to__fleet%20eq%201542022' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json' | jq '.'
+$ curl -X GET 'https://api.balena-cloud.com/v5/release?$filter=belongs_to__application%20eq%201542022' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json' | jq '.'
 ```
 
 ### 5. Filtering
@@ -447,10 +447,10 @@ Views allow us to save filters, rather than having to reenter them each time we 
 
 The API has powerful filter capabilities through the use of the `$filter` property. We will only cover the basic filters, and more detail can be found via the [OData specification](https://www.odata.org/) or this [OData cheatsheet](https://help.nintex.com/en-us/insight/OData/HE_CON_ODATAQueryCheatSheet.htm) for all available filter operations.
 
-For example, let's find all the devices in our fleet that are online using the fleet id (1550049) in the example. For readability, the decoded version of this query is `https://api.balena-cloud.com/v5/device?$filter=belongs_to__fleet eq '1550049' and is_online eq true`.
+For example, let's find all the devices in our fleet that are online using the fleet id (1550049) in the example. For readability, the decoded version of this query is `https://api.balena-cloud.com/v5/device?$filter=belongs_to__application eq '1550049' and is_online eq true`.
 
 ```bash
-curl -X GET 'https://api.balena-cloud.com/v5/device?$filter=belongs_to__fleet%20eq%20%271550049%27%20and%20is_online%20eq%20true' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json'
+curl -X GET 'https://api.balena-cloud.com/v5/device?$filter=belongs_to__application%20eq%20%271550049%27%20and%20is_online%20eq%20true' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json'
 ```
 
 ```json
@@ -480,7 +480,7 @@ curl -X GET 'https://api.balena-cloud.com/v5/device?$filter=belongs_to__fleet%20
 The response from that query should return your online device(s). If you power off your device(s) and run the query again, you should get an empty response. Alternatively, change `is_online` to `false` to display the now offline device(s) for the _FleetMasterclass_ fleet.
 
 ```bash
-curl -X GET 'https://api.balena-cloud.com/v5/device?$filter=belongs_to__fleet%20eq%20%271550049%27%20and%20is_online%20eq%20false' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json'
+curl -X GET 'https://api.balena-cloud.com/v5/device?$filter=belongs_to__application%20eq%20%271550049%27%20and%20is_online%20eq%20false' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json'
 ```
 
 We can also identify our devices tagged as `devDevice` via the API by using the following request:
