@@ -170,16 +170,16 @@ Either type of access token can be used for this masterclass. Session tokens are
 API_TOKEN=<YOUR_API_TOKEN>
 ```
 
-We can test the API token by issuing a request to obtain information about the fleet named _FleetMasterclass_. The URL is encoded in the example below, which makes it hard to read; the decoded query we are making is: `https://api.balena-cloud.com/v5/fleet?$filter=fleet_name eq 'FleetMasterclass'`.
+We can test the API token by issuing a request to obtain information about the fleet named _FleetMasterclass_. The URL is encoded in the example below, which makes it hard to read; the decoded query we are making is: `https://api.balena-cloud.com/v6/fleet?$filter=fleet_name eq 'FleetMasterclass'`.
 
 ```bash
-curl -X GET 'https://api.balena-cloud.com/v5/fleet?$filter=fleet_name%20eq%20%27FleetMasterclass%27' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json'
+curl -X GET 'https://api.balena-cloud.com/v6/fleet?$filter=fleet_name%20eq%20%27FleetMasterclass%27' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json'
 ```
 
 If you have a fleet named _FleetMasterclass_ associated with your account, a JSON object containing the fleet data will be returned. To make this easier to read, pipe the output into the `jq` utility by appending `| jq '.'` to the end of the previous command:
 
 ```bash
-curl -X GET 'https://api.balena-cloud.com/v5/fleet?$filter=fleet_name%20eq%20%27FleetMasterclass%27' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json' | jq '.'
+curl -X GET 'https://api.balena-cloud.com/v6/fleet?$filter=fleet_name%20eq%20%27FleetMasterclass%27' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json' | jq '.'
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
 100   492  100   492    0     0   1233      0 --:--:-- --:--:-- --:--:--  1230
@@ -228,7 +228,7 @@ Configuration variables provide runtime configuration to the host OS and supervi
 Let's enable persistent logging for our device via the API. By default, logs are written to an 8MB journald RAM buffer to avoid wear on the storage medium, and so any logs do not persist on a reboot. Enabling persistent logging writes up to 32MB of logs to the data partition of the device (for balenaOS >= 2.45) and can assist in debugging issues over multiple reboots. To enable persistent logging for a device, send the following POST request replacing your `device_id` in the request below. You can obtain your device ID from the output of `balena devices --fleet FleetMasterclass`.
 
 ```bash
-curl -X POST 'https://api.balena-cloud.com/v5/device_config_variable' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json' -d '{
+curl -X POST 'https://api.balena-cloud.com/v6/device_config_variable' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json' -d '{
     "device": "2134742",
     "name": "RESIN_SUPERVISOR_PERSISTENT_LOGGING",
     "value": "1"
@@ -266,7 +266,7 @@ Many configuration updates require a reboot of the device to apply, which is tri
 Let's disable persistent logging again with a `PATCH` request. To do so, the configuration variable id that was returned when creating the configuration value is required.
 
 ```bash
-curl -X PATCH 'https://api.balena-cloud.com/v5/device_config_variable(1399394)' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json' -d '{
+curl -X PATCH 'https://api.balena-cloud.com/v6/device_config_variable(1399394)' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json' -d '{
     "value": "0"
 }'
 OK%
@@ -275,7 +275,7 @@ OK%
 If you don't know the device configuration variable id, you can list all configuration values for a device via the following `GET` request, again replacing with your `device_id`.
 
 ```bash
-curl -X GET 'https://api.balena-cloud.com/v5/device_config_variable?$filter=device%20eq%202134742' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json'
+curl -X GET 'https://api.balena-cloud.com/v6/device_config_variable?$filter=device%20eq%202134742' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json'
 ```
 
 You can also update this configuration value for the entire fleet. Access the _Configuration_ tab of the Fleet dashboard and select _activate_ next to _Enable persistent logging. Only supported by supervisor versions >= v7.15.0._. Then click on _Enable_ to set the configuration value. Note that because we have an existing override for the device, it will not be applied to our device but only to any additional devices joining the fleet.
@@ -379,7 +379,7 @@ $ balena push FleetMasterclass
 Create the release tag by issuing the following POST request in your terminal, updating the release value to match your release ID. Again, we'll pipe the output to `jq` to make viewing the response easier.
 
 ```bash
-curl -X POST 'https://api.balena-cloud.com/v5/release_tag' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json' -d '{
+curl -X POST 'https://api.balena-cloud.com/v6/release_tag' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json' -d '{
     "release": 1156095,
     "tag_key": "version",
     "value": "v1.0.0"
@@ -409,7 +409,7 @@ We can confirm that this worked by visiting the Fleet dashboard and clicking the
 
 ![Release tag](https://github.com/balena-io-projects/balena-fleet-management-masterclass/raw/master/resources/1vrS6bw.png)
 
-> You can edit a tag via the API by issuing a PATCH request to `https://api.balena-cloud.com/v5/release_tag(1156095)` again using the release ID. To delete the tag, send a DELETE request to the same URL. For more information, consult the [API documentation](https://www.balena.io/docs/reference/api/overview/).
+> You can edit a tag via the API by issuing a PATCH request to `https://api.balena-cloud.com/v6/release_tag(1156095)` again using the release ID. To delete the tag, send a DELETE request to the same URL. For more information, consult the [API documentation](https://www.balena.io/docs/reference/api/overview/).
 
 #### 4.3 Identifying Releases
 
@@ -422,7 +422,7 @@ You can find all releases via the dashboard by clicking the _Releases_ tab in th
 Using the API, we can request all releases for a fleet by issuing the following request, using the `fleet_id` of the fleet (1542022) in this example. You can obtain the `fleet_id` via `balena fleets | grep FleetMasterclass`.
 
 ```bash
-$ curl -X GET 'https://api.balena-cloud.com/v5/release?$filter=belongs_to__fleet%20eq%201542022' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json' | jq '.'
+$ curl -X GET 'https://api.balena-cloud.com/v6/release?$filter=belongs_to__fleet%20eq%201542022' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json' | jq '.'
 ```
 
 ### 5. Filtering
@@ -447,10 +447,10 @@ Views allow us to save filters, rather than having to reenter them each time we 
 
 The API has powerful filter capabilities through the use of the `$filter` property. We will only cover the basic filters, and more detail can be found via the [OData specification](https://www.odata.org/) or this [OData cheatsheet](https://help.nintex.com/en-us/insight/OData/HE_CON_ODATAQueryCheatSheet.htm) for all available filter operations.
 
-For example, let's find all the devices in our fleet that are online using the fleet id (1550049) in the example. For readability, the decoded version of this query is `https://api.balena-cloud.com/v5/device?$filter=belongs_to__fleet eq '1550049' and is_online eq true`.
+For example, let's find all the devices in our fleet that are online using the fleet id (1550049) in the example. For readability, the decoded version of this query is `https://api.balena-cloud.com/v6/device?$filter=belongs_to__fleet eq '1550049' and is_online eq true`.
 
 ```bash
-curl -X GET 'https://api.balena-cloud.com/v5/device?$filter=belongs_to__fleet%20eq%20%271550049%27%20and%20is_online%20eq%20true' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json'
+curl -X GET 'https://api.balena-cloud.com/v6/device?$filter=belongs_to__fleet%20eq%20%271550049%27%20and%20is_online%20eq%20true' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json'
 ```
 
 ```json
@@ -480,13 +480,13 @@ curl -X GET 'https://api.balena-cloud.com/v5/device?$filter=belongs_to__fleet%20
 The response from that query should return your online device(s). If you power off your device(s) and run the query again, you should get an empty response. Alternatively, change `is_online` to `false` to display the now offline device(s) for the _FleetMasterclass_ fleet.
 
 ```bash
-curl -X GET 'https://api.balena-cloud.com/v5/device?$filter=belongs_to__fleet%20eq%20%271550049%27%20and%20is_online%20eq%20false' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json'
+curl -X GET 'https://api.balena-cloud.com/v6/device?$filter=belongs_to__fleet%20eq%20%271550049%27%20and%20is_online%20eq%20false' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json'
 ```
 
 We can also identify our devices tagged as `devDevice` via the API by using the following request:
 
 ```bash
-curl -X GET 'https://api.balena-cloud.com/v5/device_tag?$filter=tag_key%20eq%20%27devDevice%27&$expand=device' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json'
+curl -X GET 'https://api.balena-cloud.com/v6/device_tag?$filter=tag_key%20eq%20%27devDevice%27&$expand=device' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json'
 ```
 
 ### 6. Release Policy
@@ -548,7 +548,7 @@ We can perform similar actions via the API to pin fleets and devices programmati
 For fleets, the `should_track_latest_release` property specifies if the latest release should be deployed to devices. Let's see the result of our currently pinned fleet, again we'll get a list of fleets filtered by _FleetMasterclass_:
 
 ```bash
-$ curl -X GET 'https://api.balena-cloud.com/v5/fleet?$filter=fleet_name%20eq%20%27FleetMasterclass%27' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json' | jq '.'
+$ curl -X GET 'https://api.balena-cloud.com/v6/fleet?$filter=fleet_name%20eq%20%27FleetMasterclass%27' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json' | jq '.'
 ```
 
 ```json
@@ -606,7 +606,7 @@ I am version 1.0.0 of the Masterclass
 Now issue the following API request, which sends a PATCH request to set `should_track_latest` to `true`, so the fleet will deploy the latest available release, replacing the fleet_id with your fleet ID.
 
 ```bash
-$ curl -X PATCH 'https://api.balena-cloud.com/v5/fleet(1542022)' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json' -d '{
+$ curl -X PATCH 'https://api.balena-cloud.com/v6/fleet(1542022)' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json' -d '{
     "should_track_latest_release": true
 }'
 ```
@@ -623,7 +623,7 @@ After we deployed this, let's imagine we found a bug in the version 3.0.0 releas
 In the API request, we will set both `should_track_latest_release` to `false` and set the commit to the commit hash of the version we want to roll back to. If we don't set `should_track_latest_release` to `false` while all devices will be updated to the specified commit, if any new releases are deployed, they will be pushed to all devices, which may not be the behavior we want.
 
 ```bash
-$ curl -X PATCH 'https://api.balena-cloud.com/v5/fleet(1550049)' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json' -d '{
+$ curl -X PATCH 'https://api.balena-cloud.com/v6/fleet(1550049)' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json' -d '{
     "should_track_latest_release": false,
     "commit": "9ba8aa013aab5c0fd8c24977c3699f25"
 }'
@@ -640,7 +640,7 @@ I am version 2.0.0 of the Masterclass
 For devices, the `should_be_running__release` property may be used to specify a release ID to pin the device to. When this is set, the device will no longer follow the fleet release policy. We can update our development device to v3.0.0 again and use this device to test our service (properly this time) while the rest of the fleet remains on v2.0.0. Issue the following API request replacing your device ID and release ID:
 
 ```bash
-curl -X PATCH 'https://api.balena-cloud.com/v5/device(1750246)' -H 'Authorization: Bearer nmotTcNaNiS3p5DrQepRhk6hQ9luNX9f' -H 'Content-Type: application/json' -d '{
+curl -X PATCH 'https://api.balena-cloud.com/v6/device(1750246)' -H 'Authorization: Bearer nmotTcNaNiS3p5DrQepRhk6hQ9luNX9f' -H 'Content-Type: application/json' -d '{
     "should_be_running__release": 1141794
 }'
 ```
