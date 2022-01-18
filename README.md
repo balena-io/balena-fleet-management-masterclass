@@ -170,16 +170,16 @@ Either type of access token can be used for this masterclass. Session tokens are
 API_TOKEN=<YOUR_API_TOKEN>
 ```
 
-We can test the API token by issuing a request to obtain information about the fleet named _FleetMasterclass_. The URL is encoded in the example below, which makes it hard to read; the decoded query we are making is: `https://api.balena-cloud.com/v5/fleet?$filter=fleet_name eq 'FleetMasterclass'`.
+We can test the API token by issuing a request to obtain information about the application named _FleetMasterclass_. The URL is encoded in the example below, which makes it hard to read; the decoded query we are making is: `https://api.balena-cloud.com/v5/application?$filter=app_name eq 'FleetMasterclass'`.
 
 ```bash
-curl -X GET 'https://api.balena-cloud.com/v5/fleet?$filter=fleet_name%20eq%20%27FleetMasterclass%27' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json'
+curl -X GET 'https://api.balena-cloud.com/v5/application?$filter=app_name%20eq%20%27FleetMasterclass%27' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json'
 ```
 
 If you have a fleet named _FleetMasterclass_ associated with your account, a JSON object containing the fleet data will be returned. To make this easier to read, pipe the output into the `jq` utility by appending `| jq '.'` to the end of the previous command:
 
 ```bash
-curl -X GET 'https://api.balena-cloud.com/v5/fleet?$filter=fleet_name%20eq%20%27FleetMasterclass%27' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json' | jq '.'
+curl -X GET 'https://api.balena-cloud.com/v5/application?$filter=app_name%20eq%20%27FleetMasterclass%27' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json' | jq '.'
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
 100   492  100   492    0     0   1233      0 --:--:-- --:--:-- --:--:--  1230
@@ -193,14 +193,14 @@ curl -X GET 'https://api.balena-cloud.com/v5/fleet?$filter=fleet_name%20eq%20%27
         },
         "__id": 129965
       },
-      "depends_on__fleet": null,
+      "depends_on__application": null,
       "actor": 4187117,
-      "fleet_name": "FleetMasterclass",
+      "app_name": "FleetMasterclass",
       "slug": "gh_garethtdavies/masterclass",
       "commit": "06fe2d0180683294128ea2c7d8134d99",
-      "fleet_type": {
+      "application_type": {
         "__deferred": {
-          "uri": "/resin/fleet_type(5)"
+          "uri": "/resin/application_type(5)"
         },
         "__id": 5
       },
@@ -208,7 +208,7 @@ curl -X GET 'https://api.balena-cloud.com/v5/fleet?$filter=fleet_name%20eq%20%27
       "should_track_latest_release": true,
       "is_accessible_by_support_until__date": null,
       "__metadata": {
-        "uri": "/resin/fleet(@id)?@id=1550049"
+        "uri": "/resin/application(@id)?@id=1550049"
       }
     }
   ]
@@ -239,18 +239,18 @@ On success, you will see the newly created device configuration value.
 
 ```json
 {
-   "id":1423838,
-   "device":{
-      "__deferred":{
-         "uri":"/resin/device(2134742)"
-      },
-      "__id":2134742
-   },
-   "value":"1",
-   "name":"RESIN_SUPERVISOR_PERSISTENT_LOGGING",
-   "__metadata":{
-      "uri":"/resin/device_config_variable(@id)?@id=1423838"
-   }
+  "id": 1423838,
+  "device": {
+    "__deferred": {
+      "uri": "/resin/device(2134742)"
+    },
+    "__id": 2134742
+  },
+  "value": "1",
+  "name": "RESIN_SUPERVISOR_PERSISTENT_LOGGING",
+  "__metadata": {
+    "uri": "/resin/device_config_variable(@id)?@id=1423838"
+  }
 }
 ```
 
@@ -422,7 +422,7 @@ You can find all releases via the dashboard by clicking the _Releases_ tab in th
 Using the API, we can request all releases for a fleet by issuing the following request, using the `fleet_id` of the fleet (1542022) in this example. You can obtain the `fleet_id` via `balena fleets | grep FleetMasterclass`.
 
 ```bash
-$ curl -X GET 'https://api.balena-cloud.com/v5/release?$filter=belongs_to__fleet%20eq%201542022' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json' | jq '.'
+$ curl -X GET 'https://api.balena-cloud.com/v5/release?$filter=belongs_to__application%20eq%201542022' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json' | jq '.'
 ```
 
 ### 5. Filtering
@@ -447,10 +447,10 @@ Views allow us to save filters, rather than having to reenter them each time we 
 
 The API has powerful filter capabilities through the use of the `$filter` property. We will only cover the basic filters, and more detail can be found via the [OData specification](https://www.odata.org/) or this [OData cheatsheet](https://help.nintex.com/en-us/insight/OData/HE_CON_ODATAQueryCheatSheet.htm) for all available filter operations.
 
-For example, let's find all the devices in our fleet that are online using the fleet id (1550049) in the example. For readability, the decoded version of this query is `https://api.balena-cloud.com/v5/device?$filter=belongs_to__fleet eq '1550049' and is_online eq true`.
+For example, let's find all the devices in our fleet that are online using the fleet id (1550049) in the example. For readability, the decoded version of this query is `https://api.balena-cloud.com/v5/device?$filter=belongs_to__application eq '1550049' and is_online eq true`.
 
 ```bash
-curl -X GET 'https://api.balena-cloud.com/v5/device?$filter=belongs_to__fleet%20eq%20%271550049%27%20and%20is_online%20eq%20true' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json'
+curl -X GET 'https://api.balena-cloud.com/v5/device?$filter=belongs_to__application%20eq%20%271550049%27%20and%20is_online%20eq%20true' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json'
 ```
 
 ```json
@@ -480,7 +480,7 @@ curl -X GET 'https://api.balena-cloud.com/v5/device?$filter=belongs_to__fleet%20
 The response from that query should return your online device(s). If you power off your device(s) and run the query again, you should get an empty response. Alternatively, change `is_online` to `false` to display the now offline device(s) for the _FleetMasterclass_ fleet.
 
 ```bash
-curl -X GET 'https://api.balena-cloud.com/v5/device?$filter=belongs_to__fleet%20eq%20%271550049%27%20and%20is_online%20eq%20false' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json'
+curl -X GET 'https://api.balena-cloud.com/v5/device?$filter=belongs_to__application%20eq%20%271550049%27%20and%20is_online%20eq%20false' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json'
 ```
 
 We can also identify our devices tagged as `devDevice` via the API by using the following request:
@@ -548,7 +548,7 @@ We can perform similar actions via the API to pin fleets and devices programmati
 For fleets, the `should_track_latest_release` property specifies if the latest release should be deployed to devices. Let's see the result of our currently pinned fleet, again we'll get a list of fleets filtered by _FleetMasterclass_:
 
 ```bash
-$ curl -X GET 'https://api.balena-cloud.com/v5/fleet?$filter=fleet_name%20eq%20%27FleetMasterclass%27' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json' | jq '.'
+$ curl -X GET 'https://api.balena-cloud.com/v5/application?$filter=app_name%20eq%20%27FleetMasterclass%27' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json' | jq '.'
 ```
 
 ```json
@@ -562,14 +562,14 @@ $ curl -X GET 'https://api.balena-cloud.com/v5/fleet?$filter=fleet_name%20eq%20%
         },
         "__id": 129965
       },
-      "depends_on__fleet": null,
+      "depends_on__application": null,
       "actor": 4187117,
-      "fleet_name": "FleetMasterclass",
+      "app_name": "FleetMasterclass",
       "slug": "gh_garethtdavies/masterclass",
       "commit": "56faf0d8be050fbd65e15d8ab0f23993",
-      "fleet_type": {
+      "application_type": {
         "__deferred": {
-          "uri": "/resin/fleet_type(5)"
+          "uri": "/resin/application(5)"
         },
         "__id": 5
       },
@@ -577,7 +577,7 @@ $ curl -X GET 'https://api.balena-cloud.com/v5/fleet?$filter=fleet_name%20eq%20%
       "should_track_latest_release": false,
       "is_accessible_by_support_until__date": null,
       "__metadata": {
-        "uri": "/resin/fleet(@id)?@id=1550049"
+        "uri": "/resin/application(@id)?@id=1550049"
       }
     }
   ]
@@ -606,7 +606,7 @@ I am version 1.0.0 of the Masterclass
 Now issue the following API request, which sends a PATCH request to set `should_track_latest` to `true`, so the fleet will deploy the latest available release, replacing the fleet_id with your fleet ID.
 
 ```bash
-$ curl -X PATCH 'https://api.balena-cloud.com/v5/fleet(1542022)' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json' -d '{
+$ curl -X PATCH 'https://api.balena-cloud.com/v5/application(1542022)' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json' -d '{
     "should_track_latest_release": true
 }'
 ```
@@ -623,7 +623,7 @@ After we deployed this, let's imagine we found a bug in the version 3.0.0 releas
 In the API request, we will set both `should_track_latest_release` to `false` and set the commit to the commit hash of the version we want to roll back to. If we don't set `should_track_latest_release` to `false` while all devices will be updated to the specified commit, if any new releases are deployed, they will be pushed to all devices, which may not be the behavior we want.
 
 ```bash
-$ curl -X PATCH 'https://api.balena-cloud.com/v5/fleet(1550049)' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json' -d '{
+$ curl -X PATCH 'https://api.balena-cloud.com/v5/application(1550049)' -H "Authorization: Bearer $API_TOKEN" -H 'Content-Type: application/json' -d '{
     "should_track_latest_release": false,
     "commit": "9ba8aa013aab5c0fd8c24977c3699f25"
 }'
