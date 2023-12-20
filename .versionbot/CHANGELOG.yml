@@ -1,0 +1,239 @@
+- commits:
+    - subject: "patch: Update balenaFin link"
+      hash: e796a4c3f0aca53c8017350985a54c9efedb4b0e
+      body: ""
+      footer: {}
+      author: Vipul Gupta
+    - subject: "patch: Create flowzone.yml"
+      hash: e75baa14517b1886245f6a13a8833ebd8fa8aa5a
+      body: ""
+      footer: {}
+      author: Vipul Gupta
+    - subject: Replaced fleet with application where appropriate
+      hash: b43e969880e7c5f413d3fff5a830c4fb3db5dd6b
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Ryan H
+  version: 0.0.19
+  title: ""
+  date: 2023-12-20T16:05:55.903Z
+- version: 0.0.18
+  date: 2021-11-08T14:56:37Z
+  commits:
+    - hash: 22f46ccd5f18be298907dc230c00898e5d7444e7
+      author: Kyle Harding
+      subject: "patch: Fix URL to balenaFin dev kit store page"
+      body: ""
+    - hash: b7e1a84ff1d631308f3f3b460b845d652518c392
+      author: Vipul Gupta (@vipulgupta2048)
+      footers:
+        signed-off-by: Vipul Gupta (@vipulgupta2048) <vipul@balena.io>
+      subject: "patch: Update terminology env/serv variables --> variables"
+      body: ""
+- version: 0.0.17
+  date: 2021-08-10T14:31:52Z
+  commits:
+    - hash: 262d0dc286594d3c146fa5333ec0c45f919becc6
+      author: Matthew Yarmolinsky
+      footers:
+        change-type: patch
+        signed-off-by: Matthew Yarmolinsky <matthew-timothy@balena.io>
+      subject: Update Section 5 with number of devices required
+      body: ""
+- version: 0.0.16
+  date: 2021-07-05T13:29:45Z
+  commits:
+    - hash: 89557375943ed91847b77a2e17995b5b87390db0
+      author: Vipul Gupta
+      subject: "patch: Delete codeowners"
+      body: ""
+    - hash: a63cfb23215566f841795ac8bfbc89af6888d0f9
+      author: Kyle Harding
+      footers:
+        change-type: patch
+        signed-off-by: Kyle Harding <kyle@balena.io>
+      subject: "README: CLI supports service env vars now"
+      body: |-
+        https://github.com/balena-io/balena-cli/pull/1529
+        This PR merged support for setting env vars on microservices
+        via the CLI so we can remove this text about it not being supported.
+        We could also improve the doc by adding an example of setting a
+        service env var via the CLI but this PR is just to remove the
+        unsupported reference.
+- version: 0.0.15
+  date: 2020-05-25T15:36:25Z
+  commits:
+    - hash: 78a075b1ff170c02aa2e4990d650601efa67df19
+      author: Gareth Davies
+      footers:
+        change-type: patch
+        signed-off-by: Gareth Davies <gareth@balena.io>
+      subject: Updating device config variables
+      body: ""
+- version: 0.0.14
+  date: 2020-05-08T19:34:21Z
+  commits:
+    - hash: ad84a7bcfa0a344a4d89e056a56b2731708aa74a
+      author: Gareth Davies
+      footers:
+        change-type: patch
+        signed-off-by: Gareth Davies <gareth@balena.io>
+      subject: Removing Gareth from codeowners
+      body: ""
+- version: 0.0.13
+  date: 2020-04-20T19:36:18Z
+  commits:
+    - hash: 26c63bca51145c4ac9dc0bfb5cf0bfb2b71c44a6
+      author: Matthew McGinn
+      footers:
+        change-type: patch
+        signed-off-by: Matthew McGinn <matthew@balena.io>
+      subject: remove hedss as codeowner
+      body: ""
+- version: 0.0.12
+  date: 2020-04-20T16:48:03Z
+  commits:
+    - hash: 5db3a07f9af3b48afb0331dfb80b08c58589d54e
+      author: Gareth Davies
+      footers:
+        change-type: patch
+        signed-off-by: Gareth Davies <gareth@balena.io>
+      subject: Adding quotes around device id
+      body: ""
+    - hash: 363af6ba9d5a2050721360ecddd7a68121528419
+      author: Gareth Davies
+      footers:
+        change-type: patch
+        signed-off-by: Gareth Davies <gareth@balena.io>
+      subject: Delta updates now enabled by default for hostOS > 2.47.1
+      body: ""
+    - hash: 010d21725778fca44eeaa5572998a4490f2dd1df
+      author: Matthew McGinn
+      footers:
+        change-type: patch
+        signed-off-by: Matthew McGinn <matthew@balena.io>
+      subject: "deltas: clean up code example for API call"
+      body: ""
+    - hash: fe3f48b2900c3a4ea007f81f58e49f1602b6e2e0
+      author: Matthew McGinn
+      footers:
+        change-type: patch
+        signed-off-by: Matthew McGinn <matthew@balena.io>
+      subject: "deltas: PATCH the update instead of POST"
+      body: ""
+- version: 0.0.11
+  date: 2020-03-06T15:10:25Z
+  commits:
+    - hash: ae542bbc2dcd31f1fd3d66447a202c6f365fbbb5
+      author: Matthew McGinn
+      footers:
+        change-type: patch
+        signed-off-by: Matthew McGinn <matthew@balena.io>
+      subject: "meta: small heading phrasing fixup"
+      body: ""
+- version: 0.0.10
+  date: 2020-02-28T21:07:55Z
+  commits:
+    - hash: 88ece6712d073eeaec9318f7bd2be520a8ecd30c
+      author: Matthew McGinn
+      footers:
+        change-type: patch
+        signed-off-by: Matthew McGinn <mamcgi@gmail.com>
+      subject: "meta: small formatting fixups"
+      body: ""
+- version: 0.0.9
+  date: 2020-02-21T12:27:14Z
+  commits:
+    - hash: f1eaf38a00b15c96c4502b6663a7b2741bca9d94
+      author: Josh Bowling
+      footers:
+        change-type: patch
+        signed-off-by: Josh Bowling <josh@balena.io>
+      subject: Update notice on managing tags with cli, add docs link
+      body: ""
+    - hash: 88e0a44474af8e37bfee56f4c47e84e3da7ca6c3
+      author: Josh Bowling
+      footers:
+        change-type: patch
+        signed-off-by: Josh Bowling <josh@balena.io>
+      subject: Fix filename and other small typo in readme
+      body: ""
+- version: 0.0.8
+  date: 2020-02-20T22:53:35Z
+  commits:
+    - hash: f02c8109bdd976c1a869ee0161e7c6fa0cb7512b
+      author: Gareth Davies
+      footers:
+        change-type: patch
+        signed-off-by: Gareth Davies <gareth@balena.io>
+      subject: Revert deltas by default  updates
+      body: ""
+- version: 0.0.7
+  date: 2020-02-20T20:50:54Z
+  commits:
+    - hash: a69351a04dfb487cb1949fedb7b0e67094ad7b32
+      author: Gareth Davies
+      footers:
+        change-type: patch
+        signed-off-by: Gareth Davies <gareth@balena.io>
+      subject: "requirements: Add link to balenaos-in-container"
+      body: ""
+- version: 0.0.6
+  date: 2020-02-12T19:54:08Z
+  commits:
+    - hash: 71ade5a59c664e1fad0c68f287c1daecfe101638
+      author: Gareth Davies
+      footers:
+        change-type: patch
+        signed-off-by: Gareth Davies <gareth@balena.io>
+      subject: "meta: Formatting for inclusion in docs"
+      body: ""
+- version: 0.0.5
+  date: 2020-01-18T00:02:45Z
+  commits:
+    - hash: 9664dab6b1ea0256c23198e556bbb8fc0f0281cf
+      author: Matthew McGinn
+      footers:
+        change-type: patch
+        signed-off-by: Matthew McGinn <mamcgi@gmail.com>
+      subject: minor spelling/formatting updates
+      body: ""
+- version: 0.0.4
+  date: 2020-01-07T10:59:24Z
+  commits:
+    - hash: ad2f85f7652f788dd5d022a30bfd1e265f05a56d
+      author: Heds Simons
+      footers:
+        change-type: patch
+        signed-off-by: Heds Simons <heds@balena.io>
+      subject: "org: Change from `balena-io-projects` to `balena-io`"
+      body: ""
+- version: 0.0.3
+  date: 2019-12-12T16:58:59Z
+  commits:
+    - hash: a2bd57754bb36c0091e0e47174c2fe5dfdb6fa58
+      author: Gareth Davies
+      footers:
+        change-type: patch
+        signed-off-by: Gareth Davies <gareth@balena.io>
+      subject: "docs: Fix broken image"
+      body: ""
+- version: 0.0.2
+  date: 2019-12-11T15:59:44Z
+  commits:
+    - hash: 01c57fe435a26b0ec60e42c46c56519809b0bd64
+      author: Gareth Davies
+      footers:
+        change-type: patch
+        signed-off-by: Gareth Davies gareth@balena.io
+      subject: "docs: Updating delta updates"
+      body: ""
+    - hash: c85cab65ff740e9df3e90c01c7ceb59248006dcc
+      author: Gareth Davies
+      footers:
+        change-type: patch
+        signed-off-by: Gareth Davies <gareth@balena.io>
+      subject: "docs: Initial draft of masterclass"
+      body: ""
