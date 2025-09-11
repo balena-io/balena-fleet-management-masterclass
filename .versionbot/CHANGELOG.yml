@@ -1,4 +1,17 @@
 - commits:
+    - subject: use python:3.13 and Flask >= 2.2
+      hash: dc2e26fac573ebf716f51cc4e0c74105ab151d6c
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Yann CARDAILLAC <yann.cardaillac@balena.io>
+        signed-off-by: Yann CARDAILLAC <yann.cardaillac@balena.io>
+      author: Yann CARDAILLAC
+  version: 0.0.20
+  title: ""
+  date: 2025-09-11T17:59:20.479Z
+- commits:
     - subject: "patch: Update balenaFin link"
       hash: e796a4c3f0aca53c8017350985a54c9efedb4b0e
       body: ""
