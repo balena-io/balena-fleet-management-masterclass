@@ -1,4 +1,15 @@
 - commits:
+    - subject: Update persistent environment variable link
+      hash: 389e5574945f345986aca2c6e66acccc36adc488
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Matthew Yarmolinsky
+  version: 0.0.21
+  title: ""
+  date: 2026-05-07T13:52:05.035Z
+- commits:
     - subject: use python:3.13 and Flask >= 2.2
       hash: dc2e26fac573ebf716f51cc4e0c74105ab151d6c
       body: ""
